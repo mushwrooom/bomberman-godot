@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://c3imhlktpgjlr"]
+
+[ext_resource type="PackedScene" uid="uid://vljqjm8hqae7" path="res://map.tscn" id="1_t8hut"]
+[ext_resource type="PackedScene" uid="uid://3mu5rlyr7e2o" path="res://player.tscn" id="2_k6m4y"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_2w48s"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0ra30"]
+
+[node name="Main" type="Node"]
+
+[node name="Map" parent="." instance=ExtResource("1_t8hut")]
+
+[node name="Spatial" type="Node3D" parent="Map"]
+
+[node name="Wall" type="MeshInstance3D" parent="Map/Spatial"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.957091, -0.840964, 1.04637)
+mesh = SubResource("BoxMesh_2w48s")
+
+[node name="Characters" type="Node3D" parent="."]
+
+[node name="Player1" parent="Characters" instance=ExtResource("2_k6m4y")]
+
+[node name="Player2" parent="Characters" instance=ExtResource("2_k6m4y")]
+
+[node name="Monsters" type="Node3D" parent="Characters"]
+
+[node name="Monster" type="CharacterBody3D" parent="Characters/Monsters"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Characters/Monsters/Monster"]
+shape = SubResource("CapsuleShape3D_0ra30")
+
+[node name="UserInterface" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Camera3D" type="Camera3D" parent="."]
