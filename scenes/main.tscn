@@ -1,0 +1,49 @@
+[gd_scene load_steps=5 format=3 uid="uid://cflh1xhu3hpvc"]
+
+[ext_resource type="PackedScene" uid="uid://vljqjm8hqae7" path="res://scenes/map.tscn" id="1_c5a3m"]
+[ext_resource type="PackedScene" uid="uid://ciwcdh4raurct" path="res://scenes/player.tscn" id="2_f1ymv"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0ra30"]
+height = 2.05138
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_k2vp2"]
+
+[node name="Main" type="Node"]
+
+[node name="Map" parent="." instance=ExtResource("1_c5a3m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.241958, 0.0312691, -0.151645)
+
+[node name="Characters" type="Node3D" parent="."]
+
+[node name="Player1" parent="Characters" instance=ExtResource("2_f1ymv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.842283, 1.60836, 2.37544)
+
+[node name="Player2" parent="Characters" instance=ExtResource("2_f1ymv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0638, 1.39074, -1.44691)
+
+[node name="Monsters" type="Node3D" parent="Characters"]
+
+[node name="Monster" type="CharacterBody3D" parent="Characters/Monsters"]
+transform = Transform3D(0.99768, 0, -0.0680849, 0, 1, 0, 0.0680849, 0, 0.99768, 4.10654, 1.91524, -2.89117)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Characters/Monsters/Monster"]
+transform = Transform3D(1, 0, 0, 0, 0.997519, -0.0704007, 0, 0.0704007, 0.997519, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_0ra30")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Characters/Monsters/Monster"]
+transform = Transform3D(1, 0, 7.45058e-09, 0, 1, 0, -7.45058e-09, 0, 1, 0, 0, 0)
+mesh = SubResource("CylinderMesh_k2vp2")
+
+[node name="UserInterface" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.999994, 0.00349065, 7.62907e-11, 7.62907e-11, -4.37113e-08, 1, 0.00349065, -0.999994, -4.37113e-08, 0, 7, 0)
+fov = 117.211
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.736747, 0.676169, 1.09784e-08, -0.632188, -0.688825, 0.354764, 0.239881, 0.261371, 0.934956, -3.21974, 10.3045, -5.62213)
+light_color = Color(1, 0.619608, 0.803922, 1)
