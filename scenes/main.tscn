@@ -1,20 +1,24 @@
-[gd_scene load_steps=4 format=3 uid="uid://cflh1xhu3hpvc"]
+[gd_scene load_steps=5 format=3 uid="uid://cflh1xhu3hpvc"]
 
 [ext_resource type="PackedScene" uid="uid://vljqjm8hqae7" path="res://scenes/maps/map.tscn" id="1_t4pd6"]
+[ext_resource type="Script" path="res://scripts/Main.cs" id="1_wa161"]
 [ext_resource type="PackedScene" uid="uid://ciwcdh4raurct" path="res://scenes/player.tscn" id="2_f1ymv"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0ra30"]
 height = 2.05138
 
 [node name="Main" type="Node"]
+script = ExtResource("1_wa161")
 
 [node name="Map" parent="." instance=ExtResource("1_t4pd6")]
 
 [node name="Characters" type="Node3D" parent="."]
 
 [node name="Player1" parent="Characters" instance=ExtResource("2_f1ymv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1.5, 0)
 
 [node name="Player2" parent="Characters" instance=ExtResource("2_f1ymv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1.5, 1.5)
 
 [node name="Monsters" type="Node3D" parent="Characters"]
 
@@ -24,8 +28,10 @@ height = 2.05138
 shape = SubResource("CapsuleShape3D_0ra30")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 400, 0)
+transform = Transform3D(1, 0, 0, 0, 0.173648, 0.984808, 0, -0.984808, 0.173648, 0, 10, 2)
 size = 0.001
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0)
+transform = Transform3D(0.68962, -0.107039, 0.716217, 0, 0.989016, 0.147809, -0.724172, -0.101932, 0.682045, 0, 25, 0)
+
+[editable path="Map"]

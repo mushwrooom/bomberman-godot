@@ -48,7 +48,7 @@ public partial class mapUI : Control
     	var button = GetNodeOrNull<Button>(buttonName);
         if (button != null)
         {
-            button.Connect("pressed", this, nameof(_on_Map_selected), new Godot.Collections.Array { buttonName });
+            //button.Connect("pressed", this, nameof(_on_Map_selected), new Godot.Collections.Array { buttonName });
         }
         else
         {
@@ -67,7 +67,7 @@ public partial class mapUI : Control
         if (mapButtonToScenePath.TryGetValue(buttonName, out var scenePath))
         {
             // Use the scene path to change the map in the Main class
-            main.CurrentMapScenePath = scenePath;
+            Main.currentMap = scenePath;
         }
         else
         {

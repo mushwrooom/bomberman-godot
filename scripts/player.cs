@@ -1,15 +1,14 @@
 using Godot;
 using System;
 using System.Collections.Generic;
-using System.Security.AccessControl;
 
-public partial class player : CharacterBody3D
+public partial class Player : CharacterBody3D
 {
 	private int playerId;
 	private List<Bomb> bombs;
 	private int bombLimit;
 	private int blastRange;
-	private Dictionary<Control, Key> controls;
+	private Dictionary<ControlScheme, Key> controls;
 	private List<Generic_PowerUp> powerUps;
 	
 	//getters
@@ -20,9 +19,9 @@ public partial class player : CharacterBody3D
 	{ 
 		//raycast
 		var spaceState = GetWorld3D().DirectSpaceState;
-		var query = PhysicsRayQueryParameters3D.Create(Vector3.Down, Position);
+		var query = PhysicsRayQueryParameters3D.Create(Vector3.Down, GlobalPosition);
 		var result = spaceState.IntersectRay(query); 
-		return result["collider"];
+		return result["collider"].As<Tile>();
 
 		//use rid? exlcude everything else but tile and return the tile that the player is on 
 		// var query = PhysicsRayQueryParameters3D.Create(Vector3.Down, Position);
@@ -34,7 +33,7 @@ public partial class player : CharacterBody3D
 	{
 		playerId=a;
 	}
-	public void setControls(Dictionary<Control, Key> layout)
+	public void setControlSchemes(Dictionary<ControlScheme, Key> layout)
 	{
 		controls=layout;
 	}
@@ -45,19 +44,19 @@ public partial class player : CharacterBody3D
 
 	//set controls for checking (will be done by the map)
 		if(Name=="Player1"){
-			controls=new Dictionary<Control, Key>();
-			controls.Add(Control.MOVE_UP, Key.W);
-			controls.Add(Control.MOVE_DOWN, Key.S);
-			controls.Add(Control.MOVE_LEFT, Key.A);
-			controls.Add(Control.MOVE_RIGHT, Key.D);	
+			controls=new Dictionary<ControlScheme, Key>();
+			controls.Add(ControlScheme.MOVE_UP, Key.W);
+			controls.Add(ControlScheme.MOVE_DOWN, Key.S);
+			controls.Add(ControlScheme.MOVE_LEFT, Key.A);
+			controls.Add(ControlScheme.MOVE_RIGHT, Key.D);	
 		
 		}
 		if(Name=="Player2"){
-			controls=new Dictionary<Control, Key>();
-			controls.Add(Control.MOVE_UP, Key.Up);
-			controls.Add(Control.MOVE_DOWN, Key.Down);
-			controls.Add(Control.MOVE_LEFT, Key.Left);
-			controls.Add(Control.MOVE_RIGHT, Key.Right);	
+			controls=new Dictionary<ControlScheme, Key>();
+			controls.Add(ControlScheme.MOVE_UP, Key.Up);
+			controls.Add(ControlScheme.MOVE_DOWN, Key.Down);
+			controls.Add(ControlScheme.MOVE_LEFT, Key.Left);
+			controls.Add(ControlScheme.MOVE_RIGHT, Key.Right);	
 		}
 	}
 
@@ -66,10 +65,10 @@ public partial class player : CharacterBody3D
 	    Vector3 _targetVelocity = Vector3.Zero; // 3D vector combining a speed with a direction
 
 		var direction = Vector3.Zero;
-		if( Input.IsKeyPressed(controls[Control.MOVE_LEFT])) direction.X -= 1.0f;
-		if( Input.IsKeyPressed(controls[Control.MOVE_RIGHT])) direction.X += 1.0f;
-		if( Input.IsKeyPressed(controls[Control.MOVE_UP])) direction.Z-= 1.0f;
-		if( Input.IsKeyPressed(controls[Control.MOVE_DOWN])) direction.Z += 1.0f;
+		if( Input.IsKeyPressed(controls[ControlScheme.MOVE_LEFT])) direction.X -= 1.0f;
+		if( Input.IsKeyPressed(controls[ControlScheme.MOVE_RIGHT])) direction.X += 1.0f;
+		if( Input.IsKeyPressed(controls[ControlScheme.MOVE_UP])) direction.Z-= 1.0f;
+		if( Input.IsKeyPressed(controls[ControlScheme.MOVE_DOWN])) direction.Z += 1.0f;
 
 		if (direction != Vector3.Zero) //if player presses 2 keys together, it shouldn't move diagonally faster. we normalize it
 		{
