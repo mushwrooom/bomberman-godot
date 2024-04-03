@@ -1,20 +1,22 @@
-[gd_scene load_steps=4 format=3 uid="uid://56fva8efurx2"]
+[gd_scene load_steps=5 format=3 uid="uid://56fva8efurx2"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_ohvha"]
+[ext_resource type="Script" path="res://scripts/Wall.cs" id="1_6ligc"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_vcwve"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_0xcwj"]
+size = Vector3(10, 2, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wngt5"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bkc5b"]
 albedo_color = Color(0.639216, 0.533333, 0.447059, 1)
 
 [node name="Wall" type="StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 167.809, 57.3907, 9.08313)
+script = ExtResource("1_6ligc")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(300, 0, 0, 0, 100, 0, 0, 0, 20, 0, 0, 0)
-shape = SubResource("BoxShape3D_ohvha")
+shape = SubResource("BoxShape3D_0xcwj")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(300, 0, 0, 0, 100, 0, 0, 0, 20, 0, 0, 0)
-mesh = SubResource("BoxMesh_vcwve")
+transform = Transform3D(10, 0, 0, 0, 2, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("BoxMesh_wngt5")
 surface_material_override/0 = SubResource("StandardMaterial3D_bkc5b")

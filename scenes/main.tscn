@@ -1,16 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://cflh1xhu3hpvc"]
+[gd_scene load_steps=4 format=3 uid="uid://cflh1xhu3hpvc"]
 
-[ext_resource type="PackedScene" uid="uid://vljqjm8hqae7" path="res://scenes/map.tscn" id="1_c5a3m"]
+[ext_resource type="PackedScene" uid="uid://vljqjm8hqae7" path="res://scenes/maps/map.tscn" id="1_t4pd6"]
 [ext_resource type="PackedScene" uid="uid://ciwcdh4raurct" path="res://scenes/player.tscn" id="2_f1ymv"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0ra30"]
 height = 2.05138
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_k2vp2"]
-
 [node name="Main" type="Node"]
 
-[node name="Map" parent="." instance=ExtResource("1_c5a3m")]
+[node name="Map" parent="." instance=ExtResource("1_t4pd6")]
 
 [node name="Characters" type="Node3D" parent="."]
 
