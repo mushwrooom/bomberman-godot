@@ -41,3 +41,5 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 5.5, 1
 
 [node name="Wall4" parent="Walls" instance=ExtResource("3_ualhh")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -5.5, 1.5, 0)
+
+[node name="Tiles" type="Node3D" parent="."]

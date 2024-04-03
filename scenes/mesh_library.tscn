@@ -1,13 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://dxv7j7o8uqn3j"]
+[gd_scene load_steps=5 format=3 uid="uid://cflh1xhu3hpvc"]
 
-[ext_resource type="PackedScene" uid="uid://vljqjm8hqae7" path="res://map.tscn" id="1_t8hut"]
-[ext_resource type="PackedScene" uid="uid://3mu5rlyr7e2o" path="res://player.tscn" id="2_k6m4y"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_2w48s"]
+[ext_resource type="PackedScene" uid="uid://vljqjm8hqae7" path="res://map.tscn" id="1_c5a3m"]
+[ext_resource type="Script" path="res://scripts/main.cs" id="1_fowiq"]
+[ext_resource type="PackedScene" uid="uid://3mu5rlyr7e2o" path="res://player.tscn" id="2_f1ymv"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0ra30"]
 
 [node name="Main" type="Node"]
+script = ExtResource("1_fowiq")
 
 [node name="Map" parent="." instance=ExtResource("1_t8hut")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0730162, 0.106522, -0.1062)

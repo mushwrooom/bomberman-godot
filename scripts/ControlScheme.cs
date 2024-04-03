@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public enum Control{
+public enum ControlScheme{
 		MOVE_UP,
 		MOVE_DOWN,
 		MOVE_LEFT,

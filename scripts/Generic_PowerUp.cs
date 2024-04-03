@@ -7,8 +7,8 @@ public abstract class Generic_PowerUp
 	protected bool is_cumulative;
 
 	//abstract classes
-	public abstract void applyEffect(player player);
-	public virtual void endEffect(player player)
+	public abstract void applyEffect(Player player);
+	public virtual void endEffect(Player player)
 	{
 
 	}

@@ -13,7 +13,7 @@ public partial class Map : Godot.Node {
 
 	private Tile TileX;
 	public override void _Ready() {
-		_tilex = GD.Load<PackedScene>("res://tile.tscn");
+		_tilex = GD.Load<PackedScene>("res://scenes/tile.tscn");
 		CreateField(10, 10); 
 		//SetupPlayers();
 		//SetupMonsters();
@@ -63,24 +63,24 @@ public partial class Map : Godot.Node {
 	}*/
 
 	public void CreateField(int width, int height) {
-    float tileSize = 30.0f; // Each tile is 30m x 30m
+    float tileSize = 1.0f; // Each tile is 30m x 30m
     tiles = new Tile[width, height];
     for (int x = 0; x < width; x++) {
         for (int z = 0; z < height; z++) {
-            Node3D tileInstance = _tilex.Instantiate<Node3D>();
+            Area3D tileInstance = _tilex.Instantiate<Area3D>();
             tileInstance.Name = "Tile_" + x + "_" + z;
             GetNode("Tiles").AddChild(tileInstance);
 
             // Position tiles based on their index and tile size
-            Vector3 worldPosition = new Vector3(x * tileSize, 0, z * tileSize);
-            tileInstance.Transform = new Transform3D(Basis.Identity, worldPosition);
+            Vector3 worldPosition = new Vector3(x * tileSize - width/2 + tileInstance.Scale.X/2, 0.5f, z * tileSize - height/2 + tileInstance.Scale.Z/2);
+            tileInstance.Position = worldPosition;
 
             // Optionally scale the tile if needed
             // This assumes the original tile is 1m^2 and needs to be scaled up to 30m^2
-            tileInstance.Scale = new Vector3(tileSize, 1, tileSize); // Adjust the y scale as necessary
+            //tileInstance.Scale = new Vector3(tileSize, 1, tileSize); // Adjust the y scale as necessary
 
             // Debug print to verify tile creation
-            GD.Print("Created tile at position: ", worldPosition);
+            //GD.Print("Created tile at position: ", worldPosition);
         }
     }
 }

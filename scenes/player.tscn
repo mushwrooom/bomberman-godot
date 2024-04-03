@@ -1,65 +1,14 @@
 [gd_scene load_steps=5 format=3 uid="uid://ciwcdh4raurct"]
 
+[ext_resource type="Script" path="res://scripts/Player.cs" id="1_xop7y"]
 [ext_resource type="Script" path="res://scripts/Bomb.cs" id="2_42k6e"]
-
-[sub_resource type="CSharpScript" id="CSharpScript_ew018"]
-script/source = "using Godot;
-using System;
-
-public abstract class Generic_PowerUp
-{
-	protected int duration;
-	protected bool is_cumulative;
-
-	//abstract classes
-	public abstract void applyEffect(player player);
-	public virtual void endEffect(player player)
-	{
-
-	}
-}
-public enum Control{
-		MOVE_UP,
-		MOVE_DOWN,
-		MOVE_LEFT,
-		MOVE_RIGHT,
-		PLACE_BOMB,
-		PLACE_OBSTACLE
-	}
-
-
-public class Ghost_PowerUp : Generic_PowerUp
-{
-	public override void applyEffect(player player)
-	{
-
-	}
-
-	public override void endEffect(player player)
-	{
-
-	}
-}
-
-public class Obstacle_PowerUp : Generic_PowerUp
-{
-	public override void applyEffect(player player)
-	{
-
-	}
-
-	public override void endEffect(player player)
-	{
-
-	}
-}"
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_tmk3b"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_s7e1v"]
 
 [node name="Player" type="CharacterBody3D"]
-script = SubResource("CSharpScript_ew018")
+script = ExtResource("1_xop7y")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_tmk3b")
@@ -68,6 +17,7 @@ shape = SubResource("SphereShape3D_tmk3b")
 mesh = SubResource("CapsuleMesh_s7e1v")
 
 [node name="RayCast3D" type="RayCast3D" parent="."]
+collide_with_areas = true
 
 [node name="Bomb" type="Node3D" parent="."]
 script = ExtResource("2_42k6e")
