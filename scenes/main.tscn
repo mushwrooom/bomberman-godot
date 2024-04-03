@@ -33,5 +33,3 @@ size = 0.001
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.68962, -0.107039, 0.716217, 0, 0.989016, 0.147809, -0.724172, -0.101932, 0.682045, 0, 25, 0)
-
-[editable path="Map"]
