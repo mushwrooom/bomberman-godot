@@ -1,6 +1,5 @@
-[gd_scene load_steps=5 format=3 uid="uid://cflh1xhu3hpvc"]
+[gd_scene load_steps=4 format=3 uid="uid://cflh1xhu3hpvc"]
 
-[ext_resource type="PackedScene" uid="uid://vljqjm8hqae7" path="res://scenes/maps/map.tscn" id="1_t4pd6"]
 [ext_resource type="Script" path="res://scripts/Main.cs" id="1_wa161"]
 [ext_resource type="PackedScene" uid="uid://ciwcdh4raurct" path="res://scenes/player.tscn" id="2_f1ymv"]
 
@@ -10,7 +9,7 @@ height = 2.05138
 [node name="Main" type="Node"]
 script = ExtResource("1_wa161")
 
-[node name="Map" parent="." instance=ExtResource("1_t4pd6")]
+[node name="Map" parent="." instance_placeholder="res://scenes/maps/map.tscn"]
 
 [node name="Characters" type="Node3D" parent="."]
 
