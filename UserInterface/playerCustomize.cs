@@ -11,7 +11,7 @@ using System.Collections.Generic;
 public partial class playerCustomize : Control
 {
 	// Called when the node enters the scene tree for the first time.
-
+    
 
 	/// <summary>
     /// Represents the packed scene for an input button.
@@ -61,9 +61,7 @@ public partial class playerCustomize : Control
         actionList = GetNode<PanelContainer>("PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/ActionList");
 		//creataction function
 		CreateActionList();
-		
 	}
-
 
     /// <summary>
     /// Creates the list of actions that can be remapped by the player. This method dynamically creates buttons for each action

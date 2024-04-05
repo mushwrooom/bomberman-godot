@@ -9,21 +9,21 @@ using System.Linq;
 /// </summary>
 public partial class Main : Node
 {
-	public static String currentMap = "res://scenes/maps/map.tscn";
+	public String currentMap = "res://scenes/maps/map.tscn";
 
 	/// <summary>
     /// Reference to the instantiated map.
     /// </summary>
-	public static Map map;
-	public static int monsterCount = 3;
+	public Map map;
+	public int monsterCount = 3;
 	public static int playerCount = 2;
 
     /// <summary>
     /// Array of dictionaries representing player controls.
 	/// It is passed as parameter to each players once the StartGame() is called.
     /// </summary>
-	public static Dictionary<Control,Key>[] playerControls = new Dictionary<Control, Key>[playerCount];
-	public static int[] scores = new int[playerCount];
+	public Dictionary<Control,Key>[] playerControls = new Dictionary<Control, Key>[playerCount];
+	public int[] scores = new int[playerCount];
 
 	/// <summary>
     /// Process function called on every game frame.
@@ -37,9 +37,11 @@ public partial class Main : Node
     /// </summary>
 	public void StartGame(){
 		//Loads the map scene and stores it as child inside the node
+		GetTree().ChangeSceneToFile("res://scenes/main.tscn");
 		PackedScene res = GD.Load<PackedScene>(currentMap);
 		map = res.Instantiate<Map>();
 		AddChild(map);
+		
 
 		map.CreateField(10,10);
 		map.SetupPlayers(playerCount,playerControls.ToList());
@@ -62,6 +64,7 @@ public partial class Main : Node
     /// Ends the game.
     /// </summary>
 	public void EndGame(){
+		GetTree().ChangeSceneToFile("res://UserInterface/gameEnd.tscn");
 		// Sequence for ending the game and cleanning up.
 	}
 }
