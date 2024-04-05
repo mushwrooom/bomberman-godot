@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scripts/Wall.cs" id="1_6ligc"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_0xcwj"]
-size = Vector3(10, 2, 1)
+size = Vector3(10, 1, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_wngt5"]
 
@@ -17,6 +17,6 @@ script = ExtResource("1_6ligc")
 shape = SubResource("BoxShape3D_0xcwj")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(10, 0, 0, 0, 2, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(10, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("BoxMesh_wngt5")
 surface_material_override/0 = SubResource("StandardMaterial3D_bkc5b")
