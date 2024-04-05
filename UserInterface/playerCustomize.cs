@@ -2,23 +2,48 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
+
+/// <summary>
+/// Manages player customization including input remapping.
+/// </summary>
+
+
 public partial class playerCustomize : Control
 {
 	// Called when the node enters the scene tree for the first time.
 
 
-	// Note: For preload, in C# you would typically load the resource when you need it
-    // or you could use a static constructor or a field initializer.
+	/// <summary>
+    /// Represents the packed scene for an input button.
+    /// </summary>
     private PackedScene inputButtonScene = (PackedScene)ResourceLoader.Load("res://UserInterface/input_button.tscn");
 
     // 'onready' keyword is not needed in C#, but you can initialize your variables here
+
+    /// <summary>
+    /// Container for listing actions that can be remapped.
+    /// </summary>
     private PanelContainer actionList;
 
+    /// <summary>
+    /// Flag indicating whether input remapping is currently in progress.
+    /// </summary>
     private bool isRemapping = false;
+
+    /// <summary>
+    /// Stores the current action being remapped.
+    /// </summary>
     private object actionToRemap = null; // object type may vary, use the specific type you need
+
+
+    /// <summary>
+    /// Reference to the button currently being used for remapping.
+    /// </summary>
     private Button remappingButton = null;
 
-
+    /// <summary>
+    /// A dictionary mapping input actions to their display names.
+    /// </summary>
 	private Dictionary<string, string> inputActions = new Dictionary<string, string>
 	{
 		{ "move_up", "Move up" },
@@ -40,6 +65,10 @@ public partial class playerCustomize : Control
 	}
 
 
+    /// <summary>
+    /// Creates the list of actions that can be remapped by the player. This method dynamically creates buttons for each action
+    /// and assigns the appropriate labels and input events.
+    /// </summary>
 	 private void CreateActionList()
     {
         InputMap.LoadFromProjectSettings();
