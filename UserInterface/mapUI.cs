@@ -3,6 +3,10 @@ using GodotPlugins.Game;
 using System;
 using System.Collections.Generic;
 
+/// <summary>
+/// Manages the user interface related to map selection and navigation within the game.
+/// </summary>
+
 public partial class mapUI : Control
 {
 
@@ -10,6 +14,10 @@ public partial class mapUI : Control
 
 
 	private Main main;
+
+	/// <summary>
+    /// Maps button names to their respective scene paths for map selection.
+    /// </summary>
 	private Dictionary<string, string> mapButtonToScenePath = new Dictionary<string, string>();
 	
 
@@ -43,6 +51,11 @@ public partial class mapUI : Control
 
 	}
 
+	/// <summary>
+    /// Connects a button signal for map selection.
+    /// </summary>
+    /// <param name="buttonName">The name of the button to connect.</param>
+
 	private void ConnectButtonSignal(string buttonName)
 	{
     	var button = GetNodeOrNull<Button>(buttonName);
@@ -60,7 +73,10 @@ public partial class mapUI : Control
 	 // This method is called when a map selection button is pressed.
 
 
-	 //mainii current mapiig solih
+	 /// <summary>
+    /// Handles the event when a map selection button is pressed. Changes the current map in the game.
+    /// </summary>
+    /// <param name="buttonName">The name of the button that was pressed.</param>
 
      private void _on_Map_selected(string buttonName)
     {
@@ -79,6 +95,11 @@ public partial class mapUI : Control
 	public override void _Process(double delta)
 	{
 	}
+
+
+	/// <summary>
+    /// Handles the event when the customize control button is pressed. Changes the scene to the player customization interface.
+    /// </summary>
 
 	public void _on_customize_control_pressed(){
 		GetTree().ChangeSceneToFile("res://UserInterface/playerCustomize.tscn");
