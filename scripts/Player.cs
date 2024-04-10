@@ -9,8 +9,8 @@ public partial class Player : CharacterBody3D
 {
     private int playerId;
     private Bomb[] bombs;
-    private int bombLimit;
-    private int blastRange;
+    private int bombLimit = 1;
+    private int blastRange = 1;
     private Dictionary<ControlScheme, Key> controls;
     private List<Generic_PowerUp> powerUps;
     private PackedScene bombScene;
@@ -19,8 +19,6 @@ public partial class Player : CharacterBody3D
     public int GetPlayerID() { return playerId; }
 
     public Bomb[] GetBombs() { return bombs; }
-
-    public int GetBombLimit() { return bombLimit; }
 
     public Tile GetPosition()
     {
