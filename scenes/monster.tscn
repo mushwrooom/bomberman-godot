@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://uqdmvvjxlda2"]
+
+[ext_resource type="Script" path="res://scripts/Monster.cs" id="1_sa8nr"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0ra30"]
+height = 2.05138
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_lo0du"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2to47"]
+albedo_color = Color(1, 0, 1, 1)
+
+[node name="Monster" type="CharacterBody3D"]
+script = ExtResource("1_sa8nr")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_0ra30")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_lo0du")
+surface_material_override/0 = SubResource("StandardMaterial3D_2to47")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

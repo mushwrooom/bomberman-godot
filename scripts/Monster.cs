@@ -4,27 +4,67 @@ using System;
 /// <summary>
 /// Represents a monster in the game. Inherits from CharacterBody3D.
 /// </summary>
-public partial class Monster : CharacterBody3D {
-    private Tile position; // Represents the monster's current position on the game map.
+public partial class Monster : CharacterBody3D
+{
+    public int Speed { get; set; } = 8;
 
-    /// <summary>
-    /// Callback method for timer timeouts. This method is called whenever an associated timer reaches zero.
-    /// </summary>
-    /// <remarks>
-    /// This method can be used to trigger events at regular intervals, such as changing the monster's state, starting an attack, or changing position.
-    /// </remarks>
-    public void _on_timer_timeout() {
-        // Implementation of what happens when the timer associated with this monster times out.
+    private Vector3 _targetVelocity = Vector3.Zero;
+    private Random _random = new Random();
+    private Vector3[] directions = {
+        new Vector3(1, 0, 0),  // East
+        new Vector3(-1, 0, 0), // West
+        new Vector3(0, 0, 1),  // North
+        new Vector3(0, 0, -1)  // South
+    };
+
+
+    public override void _Ready()
+    {
+        prev = Position;
+
     }
 
     /// <summary>
-    /// Controls the movement of the monster.
+    /// Callback method for timer timeouts.
     /// </summary>
-    /// <remarks>
-    /// This method should include logic for moving the monster around the game world, potentially using pathfinding, random movement, or following the player.
-    /// </remarks>
-    public void Move() {
-        // Implementation of monster movement logic.
+    public void _on_timer_timeout()
+    {
+        // // Generate a random direction
+        // float randX = (float)(_random.NextDouble() * 2.0 - 1.0); // Random value between -1 and 1
+        // float randZ = (float)(_random.NextDouble() * 2.0 - 1.0); // Random value between -1 and 1
+        // Vector3 direction = new Vector3(randX, 0, randZ).Normalized(); // Normalize to ensure consistent speed
+
+        // // Update the target velocity based on the random direction
+        // _targetVelocity.X = direction.X * Speed;
+        // _targetVelocity.Z = direction.Z * Speed;
+        ChangeDirection();
+    }
+
+    private Vector3 prev;
+    public override void _PhysicsProcess(double delta)
+    {
+        if (Position.DistanceTo(prev) < 0.01 * Speed) ChangeDirection();
+        prev = Position;
+        Move(delta);
+    }
+
+    public void Move(double delta)
+    {
+
+        // Set the body's velocity property
+        Velocity = _targetVelocity;
+        MoveAndSlide();
+
+
+    }
+
+
+    private void ChangeDirection()
+    {
+        // Randomly select a new direction to move in
+        Vector3 newDirection = directions[_random.Next(directions.Length)];
+
+        _targetVelocity = newDirection * Speed;
     }
 
 }
