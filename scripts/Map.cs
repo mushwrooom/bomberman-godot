@@ -85,7 +85,7 @@ public partial class Map : Godot.Node {
         for (int z = 0; z < height; z++) {
 			// Instantiates a new tile instance from the PackedScene _tilex.
 			// _tilex is expected to be a preloaded scene/template of a tile, which is an Area3D node.
-            Area3D tileInstance = _tilex.Instantiate<Area3D>();
+            StaticBody3D tileInstance = _tilex.Instantiate<StaticBody3D>();
             tileInstance.Name = "Tile_" + x + "_" + z;
 			// Adds the newly created tile instance as a child of the "Tiles" node.
             GetNode("Tiles").AddChild(tileInstance);

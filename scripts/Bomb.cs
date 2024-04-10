@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Reflection.PortableExecutable;
 
 public partial class Bomb : Node3D
 {
@@ -13,7 +14,8 @@ public partial class Bomb : Node3D
 
 	public void explode()
 	{
-		
+		Visible = false;
+		GD.Print("explode");
 	}
 
 	
@@ -26,4 +28,10 @@ public partial class Bomb : Node3D
 	{
 
 	}
+
+	public void onTimerTimeout()
+	{
+		explode();
+	}
 }
+

@@ -1,7 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://ciwcdh4raurct"]
+[gd_scene load_steps=4 format=3 uid="uid://ciwcdh4raurct"]
 
 [ext_resource type="Script" path="res://scripts/Player.cs" id="1_xop7y"]
-[ext_resource type="Script" path="res://scripts/Bomb.cs" id="2_42k6e"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_tmk3b"]
 radius = 0.45
@@ -18,7 +17,6 @@ shape = SubResource("SphereShape3D_tmk3b")
 mesh = SubResource("CapsuleMesh_s7e1v")
 
 [node name="RayCast3D" type="RayCast3D" parent="."]
+collision_mask = 2
+hit_from_inside = true
 collide_with_areas = true
-
-[node name="Bomb" type="Node3D" parent="."]
-script = ExtResource("2_42k6e")

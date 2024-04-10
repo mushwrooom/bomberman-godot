@@ -8,71 +8,44 @@ using System.Collections.Generic;
 public partial class Player : CharacterBody3D
 {
     private int playerId;
-    private List<Bomb> bombs;
+    private Bomb[] bombs;
     private int bombLimit;
     private int blastRange;
     private Dictionary<ControlScheme, Key> controls;
     private List<Generic_PowerUp> powerUps;
+    private PackedScene bombScene;
 
-    /// <summary>
-    /// Gets the player's ID.
-    /// </summary>
-    /// <returns>The player ID.</returns>
+    //getters
     public int GetPlayerID() { return playerId; }
 
-    /// <summary>
-    /// Gets the bombs currently placed by the player.
-    /// </summary>
-    /// <returns>An array of Bomb objects.</returns>
-    public Bomb[] GetBombs() { return bombs.ToArray(); }
+    public Bomb[] GetBombs() { return bombs; }
 
-    /// <summary>
-    /// Gets the limit of bombs this player can place.
-    /// </summary>
-    /// <returns>The bomb limit.</returns>
     public int GetBombLimit() { return bombLimit; }
 
-    /// <summary>
-    /// Determines the player's current position on a Tile.
-    /// </summary>
-    /// <remarks>
-    /// Utilizes a raycast from the player's position downwards to find the Tile they are standing on.
-    /// </remarks>
-    /// <returns>The Tile beneath the player.</returns>
     public Tile GetPosition()
     {
         var spaceState = GetWorld3D().DirectSpaceState;
-        var query = PhysicsRayQueryParameters3D.Create(Vector3.Down, GlobalPosition);
+        var query = PhysicsRayQueryParameters3D.Create(GlobalPosition, Vector3.Down*100, 2);
         var result = spaceState.IntersectRay(query);
         return result["collider"].As<Tile>();
     }
 
-    /// <summary>
-    /// Sets the player's ID.
-    /// </summary>
-    /// <param name="id">The new ID for the player.</param>
     public void SetPlayerId(int id)
     {
         playerId = id;
     }
 
-    /// <summary>
-    /// Sets the control schemes for the player.
-    /// </summary>
-    /// <param name="layout">A dictionary mapping from ControlScheme to Key representing the controls.</param>
     public void SetControlSchemes(Dictionary<ControlScheme, Key> layout)
     {
         controls = layout;
     }
 
-    /// <summary>
     /// Initialization method called when the node enters the scene tree.
-    /// </summary>
-    /// <remarks>
-    /// Sets up the player's controls based on their assigned name.
-    /// </remarks>
     public override void _Ready()
     {
+        //create bomb scene
+        bombScene= GD.Load<PackedScene>("res://scenes/bomb.tscn");
+
         // Set controls for checking (will be done by the map)
         if (Name == "Player1")
         {
@@ -81,6 +54,8 @@ public partial class Player : CharacterBody3D
             controls.Add(ControlScheme.MOVE_DOWN, Key.S);
             controls.Add(ControlScheme.MOVE_LEFT, Key.A);
             controls.Add(ControlScheme.MOVE_RIGHT, Key.D);
+            controls.Add(ControlScheme.PLACE_BOMB, Key.Space);
+            
         }
         if (Name == "Player2")
         {
@@ -89,6 +64,7 @@ public partial class Player : CharacterBody3D
             controls.Add(ControlScheme.MOVE_DOWN, Key.Down);
             controls.Add(ControlScheme.MOVE_LEFT, Key.Left);
             controls.Add(ControlScheme.MOVE_RIGHT, Key.Right);
+            controls.Add(ControlScheme.PLACE_BOMB, Key.Enter);
         }
     }
 
@@ -97,15 +73,15 @@ public partial class Player : CharacterBody3D
     /// </summary>
     public void Move()
     {
-        int speed = 10; // Speed in units per second
+        int speed = 9; // Speed in units per second
         Vector3 targetVelocity = Vector3.Zero; // Desired movement direction and speed
 
         var direction = Vector3.Zero;
         // Determine direction based on key presses
-        if (Input.IsKeyPressed(controls[ControlScheme.MOVE_LEFT])) direction.X -= 1.0f;
-        if (Input.IsKeyPressed(controls[ControlScheme.MOVE_RIGHT])) direction.X += 1.0f;
-        if (Input.IsKeyPressed(controls[ControlScheme.MOVE_UP])) direction.Z -= 1.0f;
-        if (Input.IsKeyPressed(controls[ControlScheme.MOVE_DOWN])) direction.Z += 1.0f;
+        if (Input.IsKeyPressed(controls[ControlScheme.MOVE_LEFT])) direction.X -= 0.8f;
+        if (Input.IsKeyPressed(controls[ControlScheme.MOVE_RIGHT])) direction.X += 0.8f;
+        if (Input.IsKeyPressed(controls[ControlScheme.MOVE_UP])) direction.Z -= 0.8f;
+        if (Input.IsKeyPressed(controls[ControlScheme.MOVE_DOWN])) direction.Z += 0.8f;
 
         // Normalize direction to prevent faster diagonal movement
         if (direction != Vector3.Zero)
@@ -122,10 +98,21 @@ public partial class Player : CharacterBody3D
         MoveAndSlide(); // Smooths out collisions with walls or obstacles
     }
 
-    /// <summary>
-    /// Updates the player every frame.
-    /// </summary>
-    /// <param name="delta">Time elapsed since the last frame.</param>
+    public override void _Input(InputEvent @event)
+    {
+        base._Input(@event);
+
+        // Check if the event is an InputEventKey, and if the key was released.
+        if (@event is InputEventKey eventKey && eventKey.Pressed == false)
+        {
+            // Check if the released key is the one mapped to PLACE_BOMB in your dictionary.
+            if ( eventKey.Keycode==controls[ControlScheme.PLACE_BOMB] && eventKey.IsReleased())
+            {
+                PlaceBomb();
+            }
+        }
+    }
+
     public override void _PhysicsProcess(double delta)
     {
         Move();
@@ -134,29 +121,35 @@ public partial class Player : CharacterBody3D
     /// <summary>
     /// Places a bomb at the player's current location.
     /// </summary>
+
     public void PlaceBomb()
     {
-        bombLimit--;
+        //GD.Print("Placing bomb");
+
+        // Create an instance of the bomb
+        Bomb bombInstance = bombScene.Instantiate<Bomb>();
+
+        // Set the bomb's position to the player's position
+        bombInstance.Position = GetPosition().Position;
+
+        bombInstance.setBlastRange(blastRange);
+
+        // Add the bomb instance to the sce
+       GetParent().AddChild(bombInstance);
     }
+
 
     public void PlaceObstacle()
     {
-        // Implementation for placing an obstacle
+        
     }
 
-    /// <summary>
-    /// Adds a power-up to the player's collection.
-    /// </summary>
-    /// <param name="powerup">The power-up to add.</param>
+
     public void AddPowerUp(Generic_PowerUp powerup)
     {
         powerUps.Add(powerup);
     }
 
-    /// <summary>
-    /// Removes a power-up from the player's collection.
-    /// </summary>
-    /// <param name="powerup">The power-up to remove.</param>
     public void RemovePowerUp(Generic_PowerUp powerup)
     {
         powerUps.Remove(powerup);

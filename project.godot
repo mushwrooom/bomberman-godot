@@ -22,3 +22,7 @@ Main="*res://scripts/Main.cs"
 [dotnet]
 
 project/assembly_name="Una"
+
+[layer_names]
+
+3d_physics/layer_2="tile"
