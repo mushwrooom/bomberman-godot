@@ -34,4 +34,8 @@ public abstract class Generic_PowerUp
     {
         // Default implementation: No operation.
     }
+        
 }
+
+
+

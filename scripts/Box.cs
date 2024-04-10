@@ -4,19 +4,36 @@ using System;
 /// <summary>
 /// Represents a box object in the game, which can contain a power-up. Inherits from GameObject.
 /// </summary>
-public partial class Box : GameObject {
+public partial class Box : StaticBody3D
+{
 	private Generic_PowerUp powerup;
 
-	public Generic_PowerUp getPowerup() {
+	public Generic_PowerUp getPowerup()
+	{
 		return powerup;
 	}
 
-	public void setPowerup(Generic_PowerUp newPowerup) {
+	public void setPowerup(Generic_PowerUp newPowerup)
+	{
 		powerup = newPowerup;
 	}
 
-	public override void Destroy() {
+	private PackedScene powerUpScene;
+	
+	public void Destroy()
+	{
+		var rng = new Random();
+		if (rng.NextDouble() < 0.5)
+		{ // 50% chance to spawn a power-up
+			Powerup powerupInstance = powerUpScene.Instantiate<Powerup>();
+			var powerupType = rng.Next(0, 2);
+			GD.Print(powerupType);
+			powerupInstance.SetType(powerupType == 0 ? new Number_PowerUp() : new Blast_PowerUp());
+			powerupInstance.Position = Position;
+			GetParent().AddChild(powerupInstance);
+		}
 		QueueFree();
-		//The node will be removed from the scene.
 	}
+	
+
 }
