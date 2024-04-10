@@ -2,9 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/Main.cs" id="1_wa161"]
 [ext_resource type="PackedScene" uid="uid://ciwcdh4raurct" path="res://scenes/player.tscn" id="2_f1ymv"]
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0ra30"]
-height = 2.05138
+[ext_resource type="PackedScene" uid="uid://uqdmvvjxlda2" path="res://scenes/monster.tscn" id="4_66jeq"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_wa161")
@@ -21,10 +19,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 1.5, 4.5)
 
 [node name="Monsters" type="Node3D" parent="Characters"]
 
-[node name="Monster" type="CharacterBody3D" parent="Characters/Monsters"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Characters/Monsters/Monster"]
-shape = SubResource("CapsuleShape3D_0ra30")
+[node name="Monster" parent="Characters/Monsters" instance=ExtResource("4_66jeq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1.5, 0)
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.173648, 0.984808, 0, -0.984808, 0.173648, 0, 10, 2)
