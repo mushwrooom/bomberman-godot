@@ -7,7 +7,7 @@ using System;
 public partial class Powerup : StaticBody3D {
     private Generic_PowerUp type;
 
-    public Generic_PowerUp GetType() {
+    public Generic_PowerUp GetPowerUpType() {
         return type;
     }
 

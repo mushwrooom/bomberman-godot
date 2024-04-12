@@ -11,6 +11,8 @@ radius = 0.4
 albedo_color = Color(0.431373, 0.372549, 0, 1)
 
 [node name="Bomb" type="StaticBody3D"]
+collision_layer = 4
+collision_mask = 9
 script = ExtResource("1_l5icv")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]

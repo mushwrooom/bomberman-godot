@@ -19,15 +19,19 @@ public partial class Box : StaticBody3D
 	}
 
 	private PackedScene powerUpScene;
-	
-	public void Destroy()
+
+    public override void _Ready()
+    {
+		powerUpScene = GD.Load<PackedScene>("res://scenes/PowerUp.tscn");
+    }
+
+    public void Destroy()
 	{
 		var rng = new Random();
 		if (rng.NextDouble() < 0.5)
 		{ // 50% chance to spawn a power-up
 			Powerup powerupInstance = powerUpScene.Instantiate<Powerup>();
 			var powerupType = rng.Next(0, 2);
-			GD.Print(powerupType);
 			powerupInstance.SetType(powerupType == 0 ? new Number_PowerUp() : new Blast_PowerUp());
 			powerupInstance.Position = Position;
 			GetParent().AddChild(powerupInstance);
