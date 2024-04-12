@@ -19,6 +19,7 @@ font_size = 12
 font_color = Color(0, 0, 0, 1)
 
 [node name="PowerUp" type="StaticBody3D"]
+collision_layer = 32
 script = ExtResource("1_c3ryk")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]

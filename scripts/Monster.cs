@@ -6,7 +6,7 @@ using System;
 /// </summary>
 public partial class Monster : CharacterBody3D
 {
-    public int Speed { get; set; } = 8;
+    public int Speed { get; set; } = 1;
 
     private Vector3 _targetVelocity = Vector3.Zero;
     private Random _random = new Random();
@@ -54,8 +54,15 @@ public partial class Monster : CharacterBody3D
         // Set the body's velocity property
         Velocity = _targetVelocity;
         MoveAndSlide();
-
-
+        for (int i = 0; i < GetSlideCollisionCount(); i++)
+        {
+            KinematicCollision3D collision = GetSlideCollision(i);
+            Object body = collision.GetCollider();
+            if (body is Blast)
+            {
+                QueueFree();
+            }
+        }
     }
 
 

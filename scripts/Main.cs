@@ -40,6 +40,7 @@ public partial class Main : Node
 		GetTree().ChangeSceneToFile("res://scenes/main.tscn");
 		PackedScene res = GD.Load<PackedScene>(currentMap);
 		map = res.Instantiate<Map>();
+		map.Position = Vector3.Zero;
 		AddChild(map);
 		
 

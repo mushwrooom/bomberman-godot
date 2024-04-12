@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://brtw3qaryrhmu"]
+
+[ext_resource type="Script" path="res://scripts/Blast.cs" id="1_imw2u"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_sn26c"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_vc8cv"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b0x31"]
+albedo_color = Color(1, 0.65098, 0, 1)
+
+[node name="Blast" type="RigidBody3D"]
+collision_layer = 64
+collision_mask = 25
+script = ExtResource("1_imw2u")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_sn26c")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("PrismMesh_vc8cv")
+surface_material_override/0 = SubResource("StandardMaterial3D_b0x31")
+
+[node name="Timer" type="Timer" parent="."]
