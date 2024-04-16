@@ -20,9 +20,12 @@ shape = SubResource("BoxShape3D_u3nod")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.9, 0, 0, 0, 0.2, 0, 0, 0, 0.9, 0, 0, 0)
-visible = false
 mesh = SubResource("BoxMesh_ob55x")
 surface_material_override/0 = SubResource("StandardMaterial3D_ei76f")
 
-[node name="RayCast3D" type="RayCast3D" parent="."]
+[node name="Ray" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+exclude_parent = false
+target_position = Vector3(0, -5, 0)
 collision_mask = 20
+hit_from_inside = true

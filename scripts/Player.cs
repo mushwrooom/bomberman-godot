@@ -21,20 +21,20 @@ public partial class Player : CharacterBody3D
 
     public Tile GetPosition()
     {
-        var spaceState = GetWorld3D().DirectSpaceState;
-        var query = PhysicsRayQueryParameters3D.Create(GlobalPosition, Vector3.Down * 100, 2);
-        var result = spaceState.IntersectRay(query);
-        return result["collider"].As<Tile>();
+        var ray = GetNode<RayCast3D>("RayCast3D");
+        return ray.GetCollider() as Tile;
     }
 
     public void SetPlayerId(int id)
     {
         playerId = id;
     }
-    public void AddBlastRange(){
+    public void AddBlastRange()
+    {
         blastRange++;
     }
-    public void AddBombLimit(){
+    public void AddBombLimit()
+    {
         bombLimit++;
     }
 
@@ -163,7 +163,7 @@ public partial class Player : CharacterBody3D
     public void PlaceBomb()
     {
         // Stop function if bomb is at limit
-        if(Bombs.Count >= bombLimit) return;
+        if (Bombs.Count >= bombLimit) return;
 
         // Terminate if there is something inside tile
         if (GetPosition().Content != null) return;

@@ -15,23 +15,27 @@ public partial class Tile : StaticBody3D
 	/// </summary>
 	public StaticBody3D Content { get; private set; }
 
-	/// <summary>
-	/// Gets or sets the world position of the tile. This is the position of the tile in the game world's 3D space.
-	/// </summary>
-	public Vector3 WorldPosition { get; set; }
-
-
 	public void SetContent(StaticBody3D content)
 	{
 		this.Content = content;
 	}
 
+	/// <summary>
+	/// Find the content on top of it and set it as its Content property
+	/// </summary>
 	public void FindContent()
 	{
-		var spaceState = GetWorld3D().DirectSpaceState;
-		var query = PhysicsRayQueryParameters3D.Create(GlobalPosition + Vector3.Down, Vector3.Up * 100);
-		var result = spaceState.IntersectRay(query);
-		if (result.Count == 0) Content = null;
-		else Content = result["collider"].As<StaticBody3D>();
+		var ray = GetNode<RayCast3D>("Ray");
+		ray.ForceRaycastUpdate();
+		if (!ray.IsColliding())
+		{
+			Content = null;
+			return;
+		}
+
+		var result = ray.GetCollider();
+
+
+		Content = result as StaticBody3D;
 	}
 }
