@@ -99,13 +99,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 1, 4.5)
 [node name="Walls" type="Node3D" parent="."]
 
 [node name="Wall" parent="Walls" instance=ExtResource("3_m4cpt")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 5.5)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1, 5.5)
 
 [node name="Wall2" parent="Walls" instance=ExtResource("3_m4cpt")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -5.5)
 
 [node name="Wall3" parent="Walls" instance=ExtResource("3_m4cpt")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 5.5, 1, 0)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 5.5, 1, 0)
 
 [node name="Wall4" parent="Walls" instance=ExtResource("3_m4cpt")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -5.5, 1, 0)
@@ -363,3 +363,8 @@ mesh = SubResource("BoxMesh_wngt5")
 surface_material_override/0 = SubResource("StandardMaterial3D_bkc5b")
 
 [node name="Tiles" type="Node3D" parent="."]
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 6.0
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
