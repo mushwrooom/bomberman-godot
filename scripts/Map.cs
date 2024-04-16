@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Xml.Resolvers;
 using Godot;
 
@@ -8,21 +10,36 @@ using Godot;
 /// </summary>
 public partial class Map : Node3D
 {
-	/// <summary>The tile scene template</summary>
-	private PackedScene _tilex;
+	public double shrinkTime = 10.0;
+	private int shrunkCount = 0;
 	private Tile[,] tiles;
+	private List<Wall> walls = new List<Wall>();
 	private List<Player> players = new List<Player>();
 	private List<Monster> monsters = new List<Monster>();
 	private List<Box> boxes = new List<Box>();
 
-	private Tile TileX;
+	private PackedScene _tilex;
+	private PackedScene wallScene;
+	private PackedScene blastScene;
+	private Timer timer;
 
 	/// <summary>
 	/// Called when the node enters the scene tree. Initializes the map by loading the tile scene and creating the field.
 	/// </summary>
 	public override void _Ready()
 	{
+		// Get reference to all the scenes
 		_tilex = GD.Load<PackedScene>("res://scenes/tile.tscn");
+		wallScene = GD.Load<PackedScene>("res://scenes/wall.tscn");
+		blastScene = GD.Load<PackedScene>("res://scenes/blast.tscn");
+
+		// Get reference to the bordering walls
+		Node[] test = GetNode<Node3D>("Walls").GetChildren()[..4].ToArray();
+		foreach (Node i in test) walls.Add(i as Wall);
+
+		timer = GetNode<Timer>("Timer");
+		timer.WaitTime = shrinkTime;
+		timer.Start();
 	}
 
 	public List<Player> GetPlayers()
@@ -35,7 +52,11 @@ public partial class Map : Node3D
 	/// </summary>
 	private void _on_timer_timeout()
 	{
-
+		if (shrunkCount < 5)
+		{
+			Shrink();
+			timer.WaitTime--;
+		}
 	}
 
 
@@ -93,10 +114,30 @@ public partial class Map : Node3D
 	}
 
 	/// <summary>
-	/// Placeholder for a method to shrink the map or perform a related function.
+	/// Shrink the map.
 	/// </summary>
-	private void Shrink()
+	private async void Shrink()
 	{
-
+		shrunkCount++;
+		List<Wall> all = new();
+		foreach (Wall wall in walls)
+		{
+			Wall wallInstance = wallScene.Instantiate<Wall>();
+			GetNode<Node3D>("Walls").AddChild(wallInstance);
+			wallInstance.Rotation = wall.Rotation;
+			wallInstance.Position = wall.Position + wall.Transform.Basis.Z * shrunkCount;
+			wallInstance.GetChild<CollisionShape3D>(0).Disabled = true;
+			all.Add(wallInstance);
+			for (int i = -5; i <= 5; i++)
+			{
+				Blast blastInstance = blastScene.Instantiate<Blast>();
+				AddChild(blastInstance);
+				Vector3 newPos = wallInstance.Position + wall.Transform.Basis.X * i;
+				blastInstance.Position = newPos;
+				blastInstance.SetCollisionMaskValue(5, false);
+			}
+		}
+		await Task.Delay(TimeSpan.FromMilliseconds(100));
+		foreach (Wall i in all) i.GetChild<CollisionShape3D>(0).Disabled = false;
 	}
 }
