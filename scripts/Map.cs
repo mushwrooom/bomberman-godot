@@ -60,8 +60,8 @@ public partial class Map : Node3D
 				GetNode("Tiles").AddChild(tileInstance);
 
 				// Position tiles based on their index and tile size
-				Vector3 worldPosition = new Vector3(x * tileSize - width / 2 + tileInstance.Scale.X / 2, 0.5f, z * tileSize - height / 2 + tileInstance.Scale.Z / 2);
-				tileInstance.Position = worldPosition;
+				Vector3 worldPosition = new(x * tileSize - width / 2 + tileInstance.Scale.X / 2, 0.5f, z * tileSize - height / 2 + tileInstance.Scale.Z / 2);
+				tileInstance.GlobalPosition = worldPosition;
 				tileInstance.FindContent();
 			}
 		}

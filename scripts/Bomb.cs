@@ -1,17 +1,15 @@
 using Godot;
 using System;
-using System.Linq.Expressions;
-using System.Reflection.PortableExecutable;
 using System.Threading.Tasks;
 
 public partial class Bomb : StaticBody3D
 {
 	// Time values in ms
 	public Player player;
-	private int chainInterval = 150;
-	private int fadeTime = 500;
+	private int chainInterval = 100;
 	private int blastRange;
 	private PackedScene blast;
+	bool exploded = false;
 
 	public void SetBlastRange(int a)
 	{
@@ -20,19 +18,29 @@ public partial class Bomb : StaticBody3D
 
 	public void Explode()
 	{
-		CreateBlast(Vector3.Right);
-		CreateBlast(Vector3.Back);
-		CreateBlast(Vector3.Left);
-		CreateBlast(Vector3.Forward);
-
-
 		// Destroying the object without losing the reference
+		exploded = true;
 		Visible = false;
 		GetNode<CollisionShape3D>("CollisionShape3D").Disabled = true;
 		GetTile(Position).SetContent(null);
 		player.Bombs.Remove(this);
+
+
+		// Create blast in place and then create in 4 directions
+		InstantiateBlast(Position, Position + Vector3.Forward);
+		CreateBlast(Vector3.Right);
+		CreateBlast(Vector3.Back);
+		CreateBlast(Vector3.Left);
+		CreateBlast(Vector3.Forward);
 	}
 
+	private void InstantiateBlast(Vector3 pos, Vector3 dir) {
+		RigidBody3D blastInstance = blast.Instantiate<RigidBody3D>();
+		blastInstance.LookAtFromPosition(Position, dir);
+		blastInstance.Position = new Vector3(pos.X, 1.0f, pos.Z);
+		GetParent().AddChild(blastInstance);
+	}
+	
 	private async void CreateBlast(Vector3 direction)
 	{
 		for (int i = 1; i <= blastRange; i++)
@@ -44,15 +52,10 @@ public partial class Bomb : StaticBody3D
 				return;
 			}
 
-			// if (projectedTile.Content != null) GD.Print(projectedTile.Content.GetClass());
-
 			if (projectedTile.Content == null)
 			{
-				RigidBody3D blastInstance = blast.Instantiate<RigidBody3D>();
-				blastInstance.LookAtFromPosition(new Vector3(Position.X, 0, Position.Z), new Vector3(projectedTile.GlobalPosition.X, 0, projectedTile.GlobalPosition.Z));
-				blastInstance.Position = projectedTile.Position + Vector3.Up * 0.5f;
-				GetParent().AddChild(blastInstance);
-				DestroyBlast(blastInstance);
+				InstantiateBlast(projectedTile.Position,
+								new Vector3(projectedTile.Position.X, Position.Y, projectedTile.Position.Z));
 			}
 			else if (projectedTile.Content is Wall)
 			{
@@ -75,10 +78,7 @@ public partial class Bomb : StaticBody3D
 		}
 	}
 
-	private async void DestroyBlast(RigidBody3D blast){
-		await Task.Delay(TimeSpan.FromMilliseconds(fadeTime));
-		blast.QueueFree();
-	}
+	
 
 	public Tile GetTile(Vector3 pos)
 	{
@@ -97,7 +97,8 @@ public partial class Bomb : StaticBody3D
 
 	public void onTimerTimeout()
 	{
-		Explode();
+		if(!exploded)
+			Explode();
 	}
 }
 
