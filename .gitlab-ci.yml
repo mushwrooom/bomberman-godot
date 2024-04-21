@@ -27,7 +27,7 @@ windows:
   stage: export
   script:
     - mkdir -v -p build/windows/$EXPORT_NAME
-    - cd $EXPORT_NAME
+    - cd build/windows/$EXPORT_NAME
     - godot --headless --verbose --export-release "Windows Desktop" ../build/windows/$EXPORT_NAME.exe
   artifacts:
     name: $EXPORT_NAME-$CI_JOB_NAME
