@@ -26,6 +26,7 @@ variables:
 windows:
   stage: export
   script:
+    - mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable.mono ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable.mono
     - mkdir -v -p build/windows/$EXPORT_NAME
     - cd build/windows/$EXPORT_NAME
     - godot --headless --verbose --export-release "Windows Desktop" ../build/windows/$EXPORT_NAME.exe
