@@ -58,12 +58,12 @@ windows:
 #   dependencies:
 #     - linux
 
-itchio:windows:
-  stage: deploy
-  script:
-    - butler push ./build/windows $ITCHIO_USERNAME/$ITCHIO_GAME:windows
-  dependencies:
-    - windows
+# itchio:windows:
+#   stage: deploy
+#   script:
+#     - butler push ./build/windows $ITCHIO_USERNAME/$ITCHIO_GAME:windows
+#   dependencies:
+#     - windows
 
 # itchio:macosx:
 #   stage: deploy
