@@ -15,16 +15,27 @@ public partial class Player : CharacterBody3D
     private Dictionary<ControlScheme, Key> controls;
     private List<Generic_PowerUp> powerUps = new();
     private PackedScene bombScene;
+    private bool alive=true;
+    
 
     //getters
-    public int GetPlayerID() { return playerId; }
+    public int GetPlayerID() 
+    { 
+        if (Name == "Player1")
+            playerId=1;
+        else if(Name == "Player2")
+            playerId=2;
+        return playerId; 
+    }
 
     public Tile GetPosition()
     {
         var ray = GetNode<RayCast3D>("RayCast3D");
         return ray.GetCollider() as Tile;
     }
+    public bool isAlive(){return alive;}
 
+    //setters
     public void SetPlayerId(int id)
     {
         playerId = id;
@@ -46,6 +57,9 @@ public partial class Player : CharacterBody3D
     /// Initialization method called when the node enters the scene tree.
     public override void _Ready()
     {
+        //add itself to players in map
+        GetNode<Map>("/root/Main/Map").players.Add(this);
+
         //create bomb scene
         bombScene = GD.Load<PackedScene>("res://scenes/bomb.tscn");
 
@@ -117,12 +131,16 @@ public partial class Player : CharacterBody3D
             c.GetPowerUpType().ApplyEffect(this);
             c.QueueFree();
         }
+        //player will die if it collides with monster or blast (shrinking is also blast)
         else if (collider is Monster)
         {
+            alive=false;
             QueueFree();
         }
         else if (collider is Blast)
         {
+            alive=false;
+           // GD.Print("dead "+GetPlayerID()+" "+isAlive());
             QueueFree();
         }
     }
