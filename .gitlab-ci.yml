@@ -26,7 +26,7 @@ variables:
 windows:
   stage: export
   script:
-    - mkdir -v -p build/windows
+    - mkdir -v -p build/windows/$EXPORT_NAME
     - cd $EXPORT_NAME
     - godot --headless --verbose --export-release "Windows Desktop" ../build/windows/$EXPORT_NAME.exe
   artifacts:
