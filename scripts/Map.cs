@@ -10,11 +10,11 @@ using Godot;
 /// </summary>
 public partial class Map : Node3D
 {
-	public double shrinkTime = 10.0;
+	public double shrinkTime = 10.0; 
 	private int shrunkCount = 0;
 	private Tile[,] tiles;
 	private List<Wall> walls = new List<Wall>();
-	private List<Player> players = new List<Player>();
+	public List<Player> players = new List<Player>();
 	private List<Monster> monsters = new List<Monster>();
 	private List<Box> boxes = new List<Box>();
 
@@ -93,11 +93,9 @@ public partial class Map : Node3D
 	/// </summary>
 	public void SetupPlayers(int playerCount, List<Dictionary<Control, Key>> playerControls)
 	{
-		var player1 = new Player();
-		var player2 = new Player();
-
-		players.Add(player1);
-		players.Add(player2);
+		// players.Add(GetParent().GetNode<Player>("Characters/Player1"));
+		// players.Add(GetParent().GetNode<Player>("Characters/Player2"));
+		//GD.Print("players: "+players.Count()+" :"+ players[0].GetPlayerID()+" "+players[1].GetPlayerID() );
 	}
 
 	/// <summary>
