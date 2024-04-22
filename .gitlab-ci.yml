@@ -1,13 +1,13 @@
 image: barichello/godot-ci:mono-4.2.1
 
 # Cache imported assets between runs
-cache:
-  key: import-assets
-  paths:
-    - .godot/imported/
+# cache:
+#   key: import-assets
+#   paths:
+#     - .godot/imported/
 
 stages:
-  - import-assets
+  # - import-assets
   - export
 
 variables:
@@ -25,17 +25,15 @@ before_script:
   - apt-get install -y dotnet-sdk-6.0
 
 # Open the editor to import assets in case the cache was empty or outdated
-import-assets:
-  stage: import-assets
-  script:
-    - godot --headless --verbose --editor --quit
+# import-assets:
+#   stage: import-assets
+#   script:
+#     - godot --headless --verbose --editor --quit
 
 windows:
   stage: export
   image: barichello/godot-ci:mono-4.2.1
   script:
-    - echo "debug"
-    - ls /root/.local/share/godot/export_templates
     # - godot -v --export-release "Windows Desktop" ./build/windows/$EXPORT_NAME.exe
     - godot --headless --verbose --export-release "Windows Desktop" build/windows/$EXPORT_NAME.exe
   artifacts:
