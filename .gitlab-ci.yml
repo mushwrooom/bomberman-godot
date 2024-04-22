@@ -1,39 +1,40 @@
-image: barichello/godot-ci:mono-4.2.1
+image: adrasteondev/godot-ci:mono-4.2.1
 
 # Cache imported assets between runs
-cache:
-  key: import-assets
-  paths:
-    - .godot/imported/
+# cache:
+#   key: import-assets
+#   paths:
+#     - .godot/imported/
 
 stages:
-  - import-assets
+  # - import-assets
   - export
 
 variables:
-  EXPORT_NAME: test-deploy
+  EXPORT_NAME: test-export
 
-before_script:
-  - mkdir -v -p build/windows
-  - wget https://packages.microsoft.com/config/debian/10/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-  - dpkg -i packages-microsoft-prod.deb
-  - rm packages-microsoft-prod.deb
-  - apt-get update -qq
-  - apt-get install -y apt-transport-https
-  - apt-get update -qq
-  - apt-get install -y dotnet-sdk-6.0
+# before_script:
+#   - mkdir -v -p build/windows
+#   - wget https://packages.microsoft.com/config/debian/10/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+#   - dpkg -i packages-microsoft-prod.deb
+#   - rm packages-microsoft-prod.deb
+#   - apt-get update -qq
+#   - apt-get install -y apt-transport-https
+#   - apt-get update -qq
+#   - apt-get install -y dotnet-sdk-6.0
 
 # Open the editor to import assets in case the cache was empty or outdated
-import-assets:
-  stage: import-assets
-  script:
-    - godot --headless --verbose --editor --quit
+# import-assets:
+#   stage: import-assets
+#   script:
+#     - godot --headless --verbose --editor --quit
 
 windows:
   stage: export
   script:
-    # - godot -v --export-release "Windows Desktop" ./build/windows/$EXPORT_NAME.exe
-    - godot --headless --verbose --export-release "Windows Desktop" ./build/windows/$EXPORT_NAME.exe
+    - mkdir -v -p build/windows
+    # Use "--headless --export-release" instead of "--export" with Godot 4
+    - godot --headless -v --export-release "Windows Desktop" build/windows/$EXPORT_NAME.exe
   artifacts:
     name: $EXPORT_NAME-$CI_JOB_NAME
     paths:
