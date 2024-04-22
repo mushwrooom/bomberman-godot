@@ -33,12 +33,8 @@ import-assets:
 windows:
   stage: export
   script:
-    - mkdir -v -p ~/.local/share/godot/export_templates
-    - mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable.mono ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable.mono
-    - cd ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
-    - ls -l
     # - godot -v --export-release "Windows Desktop" ./build/windows/$EXPORT_NAME.exe
-    - godot --headless --verbose --export-release "Windows Desktop" ./build/windows/$EXPORT_NAME.exe
+    - godot --headless --verbose --export-release "Windows Desktop" build/windows/$EXPORT_NAME.exe
   artifacts:
     name: $EXPORT_NAME-$CI_JOB_NAME
     paths:
