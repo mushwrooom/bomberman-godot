@@ -23,6 +23,10 @@ Main="*res://scripts/Main.cs"
 
 project/assembly_name="Una"
 
+[filesystem]
+
+import/blender/enabled=false
+
 [layer_names]
 
 3d_physics/layer_1="player"
