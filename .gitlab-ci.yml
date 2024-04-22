@@ -32,6 +32,7 @@ import-assets:
 
 windows:
   stage: export
+  image: barichello/godot-ci:mono-4.2.1
   script:
     # - godot -v --export-release "Windows Desktop" ./build/windows/$EXPORT_NAME.exe
     - godot --headless --verbose --export-release "Windows Desktop" build/windows/$EXPORT_NAME.exe
