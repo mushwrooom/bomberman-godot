@@ -12,6 +12,7 @@ stages:
 
 variables:
   EXPORT_NAME: test-deploy
+  GODOT_VERSION: 4.2.1
 
 before_script:
   - mkdir -v -p build/windows
