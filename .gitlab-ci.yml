@@ -34,6 +34,8 @@ windows:
   stage: export
   image: barichello/godot-ci:mono-4.2.1
   script:
+    - echo "debug"
+    - ls /root/.local/share/godot/export_templates
     # - godot -v --export-release "Windows Desktop" ./build/windows/$EXPORT_NAME.exe
     - godot --headless --verbose --export-release "Windows Desktop" build/windows/$EXPORT_NAME.exe
   artifacts:
