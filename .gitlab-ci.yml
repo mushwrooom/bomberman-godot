@@ -1,6 +1,13 @@
 image: barichello/godot-ci:mono-4.2.1
 
+# Cache imported assets between runs
+cache:
+  key: import-assets
+  paths:
+    - .godot/imported/
+
 stages:
+  - import-assets
   - export
 
 variables:
@@ -8,6 +15,12 @@ variables:
 
 before_script:
   - mkdir -v -p build/windows
+
+# Open the editor to import assets in case the cache was empty or outdated
+import-assets:
+  stage: import-assets
+  script:
+    - godot --headless --verbose --editor --quit
 
 windows:
   stage: export
