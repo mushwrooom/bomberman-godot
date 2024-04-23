@@ -34,7 +34,31 @@ public partial class Powerup : StaticBody3D {
         {
             label.Text = "Bomb Count";
         }
+
+        else if (powerupType is Detonator_PowerUp)
+        {
+            label.Text = "Detonator";
+        }
+
+        else if (powerupType is Roller_PowerUp)
+        {
+            label.Text = "Roller Skate";
+        }
+
+        else if (powerupType is Invincibility_PowerUp)
+        {
+            label.Text = "Invincibility";
+        }
+        else if (powerupType is Ghost_PowerUp)
+        {
+            label.Text = "Ghost";
+        }
+        else if(powerupType is Obstacle_PowerUp)
+        {
+            label.Text = "Obstacle";
+        }
     }
+
 
 }
 

@@ -6,8 +6,10 @@ public partial class Bomb : StaticBody3D
 {
 	// Time values in ms
 	public Player player;
-	private int chainInterval = 100;
-	private int blastRange;
+	private int chainInterval = 150;
+	private int fadeTime = 500;
+	public int BlastRange = 1;
+	public bool HasDetonator = false;
 	private PackedScene blast;
 	bool exploded = false;
 
@@ -43,7 +45,7 @@ public partial class Bomb : StaticBody3D
 	
 	private async void CreateBlast(Vector3 direction)
 	{
-		for (int i = 1; i <= blastRange; i++)
+		for (int i = 1; i <= BlastRange; i++)
 		{
 			Tile projectedTile = GetTile(GlobalPosition + direction.Normalized() * i);
 			// Cease the function if it goes out of bound or encounters wall
