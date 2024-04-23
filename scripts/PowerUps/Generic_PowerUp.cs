@@ -6,10 +6,13 @@ using System;
 /// It defines common properties and methods that all power-ups should have, 
 /// such as duration, whether the effect is cumulative, and the logic for applying and ending the effect.
 /// </summary>
-public abstract class Generic_PowerUp
+public abstract partial class Generic_PowerUp : Node
 {
-    protected int duration; // Duration of the power-up effect.
-    protected bool is_cumulative; // Indicates whether the power-up's effect is cumulative.
+    
+    public int duration; // Duration of the power-up effect, exposed to the Godot editor.
+
+  
+    public bool is_cumulative;
 
     /// <summary>
     /// Applies the effect of the power-up to the specified player.

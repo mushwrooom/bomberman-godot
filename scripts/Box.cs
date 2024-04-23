@@ -20,14 +20,15 @@ public partial class Box : StaticBody3D
 
 	private PackedScene powerUpScene;
 
-    public override void _Ready()
-    {
+	public override void _Ready()
+	{
 		powerUpScene = GD.Load<PackedScene>("res://scenes/PowerUp.tscn");
-    }
+	}
 
-    public void Destroy()
+	public void Destroy()
 	{
 		var rng = new Random();
+		/*
 		if (rng.NextDouble() < 0.5)
 		{ // 50% chance to spawn a power-up
 			Powerup powerupInstance = powerUpScene.Instantiate<Powerup>();
@@ -36,8 +37,41 @@ public partial class Box : StaticBody3D
 			powerupInstance.Position = Position;
 			GetParent().AddChild(powerupInstance);
 		}
+		QueueFree();*/
+		if (rng.NextDouble() < 0.5)
+		{
+			Powerup powerupInstance = powerUpScene.Instantiate<Powerup>();
+			switch (rng.Next(0, 7)) 
+			{
+				case 0:
+					powerupInstance.SetType(new Number_PowerUp());
+					break;
+				case 1:
+					powerupInstance.SetType(new Blast_PowerUp());
+					break;
+				case 2:
+					powerupInstance.SetType(new Roller_PowerUp());
+					break;
+				case 3:
+					powerupInstance.SetType(new Invincibility_PowerUp());
+					break;
+				case 4:
+					powerupInstance.SetType(new Ghost_PowerUp());
+					break;
+				case 5:
+					powerupInstance.SetType(new Detonator_PowerUp());
+					break;
+				case 6:
+					powerupInstance.SetType(new Obstacle_PowerUp());
+					break;
+			}
+
+			powerupInstance.SetType(new Detonator_PowerUp());
+
+			powerupInstance.Position = Position;
+        	GetParent().AddChild(powerupInstance);
+		}
 		QueueFree();
 	}
-	
 
 }

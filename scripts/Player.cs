@@ -12,6 +12,7 @@ public partial class Player : CharacterBody3D
     public List<Bomb> Bombs = new();
     private int bombLimit = 2;
     private int blastRange = 2;
+    public bool HasDetonator = false;
     private Dictionary<ControlScheme, Key> controls;
     private List<Generic_PowerUp> powerUps = new();
     private PackedScene bombScene;
@@ -49,6 +50,11 @@ public partial class Player : CharacterBody3D
         bombLimit++;
     }
 
+    public void Die()
+    {
+        QueueFree();  
+    }
+
     public void SetControlSchemes(Dictionary<ControlScheme, Key> layout)
     {
         controls = layout;
@@ -66,31 +72,38 @@ public partial class Player : CharacterBody3D
         // Set controls for checking (will be done by the map)
         if (Name == "Player1")
         {
-            controls = new Dictionary<ControlScheme, Key>();
-            controls.Add(ControlScheme.MOVE_UP, Key.W);
-            controls.Add(ControlScheme.MOVE_DOWN, Key.S);
-            controls.Add(ControlScheme.MOVE_LEFT, Key.A);
-            controls.Add(ControlScheme.MOVE_RIGHT, Key.D);
-            controls.Add(ControlScheme.PLACE_BOMB, Key.Space);
+            controls = new Dictionary<ControlScheme, Key>
+            {
+                { ControlScheme.MOVE_UP, Key.W },
+                { ControlScheme.MOVE_DOWN, Key.S },
+                { ControlScheme.MOVE_LEFT, Key.A },
+                { ControlScheme.MOVE_RIGHT, Key.D },
+                { ControlScheme.PLACE_BOMB, Key.Space }
+            };
 
         }
         if (Name == "Player2")
         {
-            controls = new Dictionary<ControlScheme, Key>();
-            controls.Add(ControlScheme.MOVE_UP, Key.Up);
-            controls.Add(ControlScheme.MOVE_DOWN, Key.Down);
-            controls.Add(ControlScheme.MOVE_LEFT, Key.Left);
-            controls.Add(ControlScheme.MOVE_RIGHT, Key.Right);
-            controls.Add(ControlScheme.PLACE_BOMB, Key.Enter);
+            controls = new Dictionary<ControlScheme, Key>
+            {
+                { ControlScheme.MOVE_UP, Key.Up },
+                { ControlScheme.MOVE_DOWN, Key.Down },
+                { ControlScheme.MOVE_LEFT, Key.Left },
+                { ControlScheme.MOVE_RIGHT, Key.Right },
+                { ControlScheme.PLACE_BOMB, Key.Enter }
+            };
         }
+
+
     }
 
     /// <summary>
     /// Handles player movement based on input.
     /// </summary>
+    public int speed = 5;
     public void Move(double delta)
     {
-        int speed = 5; // Speed in units per second
+        //speed = 5; // Speed in units per second
         Vector3 targetVelocity = Vector3.Zero; // Desired movement direction and speed
 
         var direction = Vector3.Zero;
@@ -124,26 +137,18 @@ public partial class Player : CharacterBody3D
 
     public void CheckCollisions(Object collider)
     {
-        if (collider is Powerup)
+        if (collider is Powerup powerup)
         {
-            Powerup c = (Powerup)collider;
-            powerUps.Add(c.GetPowerUpType());
-            c.GetPowerUpType().ApplyEffect(this);
-            c.QueueFree();
+            powerUps.Add(powerup.GetPowerUpType());
+            powerup.GetPowerUpType().ApplyEffect(this);
+            powerup.QueueFree();
         }
-        //player will die if it collides with monster or blast (shrinking is also blast)
-        else if (collider is Monster)
+        else if (collider is Monster || collider is Blast)
         {
-            alive=false;
-            QueueFree();
-        }
-        else if (collider is Blast)
-        {
-            alive=false;
-           // GD.Print("dead "+GetPlayerID()+" "+isAlive());
-            QueueFree();
+            Die();
         }
     }
+
 
     public override void _Input(InputEvent @event)
     {
@@ -160,6 +165,7 @@ public partial class Player : CharacterBody3D
         }
     }
 
+    private Bomb IsOnBomb = null;
     public override void _PhysicsProcess(double delta)
     {
         Move(delta);
@@ -174,17 +180,29 @@ public partial class Player : CharacterBody3D
     }
 
 
-    private Bomb IsOnBomb = null;
     /// <summary>
     /// Places a bomb at the player's current location.
     /// </summary>
     public void PlaceBomb()
     {
         // Stop function if bomb is at limit
-        if (Bombs.Count >= bombLimit) return;
-
+        if(Bombs.Count >= bombLimit){
+            // var tempBombs = Bombs;
+            // if(HasDetonator)
+            // {
+            //     GD.Print(tempBombs);
+            //     foreach (Bomb bomb in tempBombs)
+            //     {
+            //         bomb?.Explode();
+            //     }
+            // }
+            return;
+        }
+            
+        
         // Terminate if there is something inside tile
         if (GetPosition().Content != null) return;
+
 
         // Create an instance of the bomb
         Bomb bombInstance = bombScene.Instantiate<Bomb>();
@@ -197,14 +215,20 @@ public partial class Player : CharacterBody3D
         bombInstance.Position = GetPosition().Position + Vector3.Up * .5f;
         GetPosition().SetContent(bombInstance);
 
-        bombInstance.SetBlastRange(blastRange);
+        bombInstance.BlastRange = blastRange;
+        bombInstance.HasDetonator = HasDetonator;
+        bombInstance.player = this;
 
         // Add the bomb instance to the sce
         GetParent().AddChild(bombInstance);
         Bombs.Add(bombInstance);
-        bombInstance.player = this;
-    }
 
+        bombInstance.ID = Bombs.Count;
+        // for(int i = 0; i < Bombs.Count; i++)
+        // {
+        //     GD.Print(i + " " + Bombs[i].ID);
+        // }
+    }
 
     public void PlaceObstacle()
     {
