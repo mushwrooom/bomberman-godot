@@ -15,10 +15,6 @@ run/main_scene="res://UserInterface/ui.tscn"
 config/features=PackedStringArray("4.2", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
-[autoload]
-
-Main="*res://scripts/Main.cs"
-
 [dotnet]
 
 project/assembly_name="Una"
@@ -36,3 +32,4 @@ import/blender/enabled=false
 3d_physics/layer_5="obj"
 3d_physics/layer_6="powerup"
 3d_physics/layer_7="blast"
+3d_physics/layer_8="border"

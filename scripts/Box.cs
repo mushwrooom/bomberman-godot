@@ -7,6 +7,7 @@ using System;
 public partial class Box : StaticBody3D
 {
 	private Generic_PowerUp powerup;
+	public bool PlacedObstacle = false;
 
 	public Generic_PowerUp getPowerup()
 	{
@@ -28,17 +29,7 @@ public partial class Box : StaticBody3D
 	public void Destroy()
 	{
 		var rng = new Random();
-		/*
-		if (rng.NextDouble() < 0.5)
-		{ // 50% chance to spawn a power-up
-			Powerup powerupInstance = powerUpScene.Instantiate<Powerup>();
-			var powerupType = rng.Next(0, 2);
-			powerupInstance.SetType(powerupType == 0 ? new Number_PowerUp() : new Blast_PowerUp());
-			powerupInstance.Position = Position;
-			GetParent().AddChild(powerupInstance);
-		}
-		QueueFree();*/
-		if (rng.NextDouble() < 0.5)
+		if (rng.NextDouble() < 0.5 && !PlacedObstacle)
 		{
 			Powerup powerupInstance = powerUpScene.Instantiate<Powerup>();
 			switch (rng.Next(0, 7)) 
@@ -65,9 +56,6 @@ public partial class Box : StaticBody3D
 					powerupInstance.SetType(new Obstacle_PowerUp());
 					break;
 			}
-
-			powerupInstance.SetType(new Detonator_PowerUp());
-
 			powerupInstance.Position = Position;
         	GetParent().AddChild(powerupInstance);
 		}

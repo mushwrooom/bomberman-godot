@@ -1,30 +1,28 @@
-[gd_scene load_steps=4 format=3 uid="uid://cflh1xhu3hpvc"]
+[gd_scene load_steps=3 format=3 uid="uid://cflh1xhu3hpvc"]
 
 [ext_resource type="Script" path="res://scripts/Main.cs" id="1_wa161"]
-[ext_resource type="PackedScene" uid="uid://ciwcdh4raurct" path="res://scenes/player.tscn" id="2_f1ymv"]
-[ext_resource type="PackedScene" uid="uid://uqdmvvjxlda2" path="res://scenes/monster.tscn" id="4_66jeq"]
+
+[sub_resource type="Environment" id="Environment_wkeyu"]
+background_energy_multiplier = 2.0
+ssr_enabled = true
+fog_enabled = true
 
 [node name="Main" type="Node"]
 script = ExtResource("1_wa161")
 
 [node name="Map" parent="." instance_placeholder="res://scenes/maps/map.tscn"]
 
-[node name="Characters" type="Node3D" parent="."]
+[node name="Characters" parent="." instance_placeholder="res://scenes/characters.tscn"]
 
-[node name="Player1" parent="Characters" instance=ExtResource("2_f1ymv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 1.5, -4.5)
+[node name="Misc" type="Node" parent="."]
 
-[node name="Player2" parent="Characters" instance=ExtResource("2_f1ymv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 1.5, 4.5)
-
-[node name="Monsters" type="Node3D" parent="Characters"]
-
-[node name="Monster" parent="Characters/Monsters" instance=ExtResource("4_66jeq")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 1.5, -0.5)
-
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.173648, 0.984808, 0, -0.984808, 0.173648, 0, 10, 2)
+[node name="Camera3D" type="Camera3D" parent="Misc"]
+transform = Transform3D(1, 0, 0, 0, 0.0871558, 0.996195, 0, -0.996195, 0.0871558, 0, 12, 1.2)
+environment = SubResource("Environment_wkeyu")
+fov = 60.0
 size = 0.001
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.919136, -0.385617, 0.0805596, 0, 0.204496, 0.978867, -0.393942, -0.899712, 0.18796, 0, 30, 0)
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Misc"]
+transform = Transform3D(0.52101, -0.819243, -0.239563, 0, -0.280667, 0.959805, -0.853551, -0.500068, -0.14623, 0, 0, 0)
+shadow_enabled = true
+shadow_normal_bias = 7.152

@@ -5,10 +5,14 @@
 [sub_resource type="SphereShape3D" id="SphereShape3D_f34ik"]
 radius = 0.4
 
-[sub_resource type="SphereMesh" id="SphereMesh_ckpcs"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1cgge"]
+albedo_color = Color(0.0980392, 0.286275, 0.407843, 1)
+metallic = 0.62
+roughness = 0.42
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kna8m"]
-albedo_color = Color(0.431373, 0.372549, 0, 1)
+[sub_resource type="SphereMesh" id="SphereMesh_ckpcs"]
+material = SubResource("StandardMaterial3D_1cgge")
+radius = 0.6
 
 [node name="Bomb" type="StaticBody3D"]
 collision_layer = 4
@@ -21,7 +25,6 @@ shape = SubResource("SphereShape3D_f34ik")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 0, 0)
 mesh = SubResource("SphereMesh_ckpcs")
-surface_material_override/0 = SubResource("StandardMaterial3D_kna8m")
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 3.0

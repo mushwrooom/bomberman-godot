@@ -1,16 +1,23 @@
-[gd_scene load_steps=4 format=3 uid="uid://ciwcdh4raurct"]
+[gd_scene load_steps=7 format=3 uid="uid://ciwcdh4raurct"]
 
 [ext_resource type="Script" path="res://scripts/Player.cs" id="1_xop7y"]
+[ext_resource type="PackedScene" uid="uid://wd7obj4w4c6l" path="res://scenes/bomb.tscn" id="2_3tx7k"]
+[ext_resource type="PackedScene" uid="uid://b67cttqqqmbn3" path="res://scenes/box.tscn" id="3_js15e"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_j1vj5"]
 radius = 0.45
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3u7x7"]
+
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_s7e1v"]
+material = SubResource("StandardMaterial3D_3u7x7")
 
 [node name="Player" type="CharacterBody3D"]
-collision_mask = 125
+collision_mask = 253
 axis_lock_linear_y = true
 script = ExtResource("1_xop7y")
+bombScene = ExtResource("2_3tx7k")
+boxScene = ExtResource("3_js15e")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_j1vj5")

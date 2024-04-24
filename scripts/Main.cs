@@ -2,91 +2,77 @@ using Godot;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-/// <summary>
-/// This singleton class represents the main game logic and functionality in the Godot game engine.
-/// Accessible from anywhere.
-/// </summary>
 public partial class Main : Node
 {
-	public String currentMap = "res://scenes/maps/map.tscn";
-
-	/// <summary>
-    /// Reference to the instantiated map.
-    /// </summary>
+	public string currentMap = "res://scenes/maps/map.tscn";
 	public Map map;
-	public int monsterCount = 3;
+	public Node3D Characters;
 	public static int playerCount = 2;
-    /// <summary>
-    /// Array of dictionaries representing player controls.
-	/// It is passed as parameter to each players once the StartGame() is called.
-    /// </summary>
-	public Dictionary<Control,Key>[] playerControls = new Dictionary<Control, Key>[playerCount];
+	public Dictionary<Control, Key>[] playerControls = new Dictionary<Control, Key>[playerCount];
 	public int[] scores = new int[playerCount];
 
-	/// <summary>
-    /// Process function called on every game frame.
-    /// </summary>
+	public override void _Ready()
+	{
+		StartGame();
+	}
 	public override void _Process(double delta)
 	{
-		IsEnd();
+		if (IsEnd())
+		{
+			//If the end condition is satisfied call the EndGame method and set this recurring _Process to false.
+			EndGame();
+			SetProcess(false);
+		}
 	}
-	/// <summary>
-    /// Starts the game by loading the map and invoking setup methods on map.
-    /// </summary>
-	public void StartGame(){
-		//Loads the map scene and stores it as child inside the node
-		GetTree().ChangeSceneToFile("res://scenes/main.tscn");
+
+	public void StartGame()
+	{
 		PackedScene res = GD.Load<PackedScene>(currentMap);
 		map = res.Instantiate<Map>();
 		map.Position = Vector3.Zero;
 		AddChild(map);
-		
-		map.CreateField(10,10);
-		map.SetupPlayers(playerCount,playerControls.ToList());
-		map.SetupMonsters(monsterCount);
+		map.CreateField(10, 10);
+
+		SetupCharacters();
 	}
 
-	public void EndGame()
+	public void SetupCharacters()
 	{
-		GetTree().ChangeSceneToFile("res://UserInterface/gameEnd.tscn");
-		// Sequence for ending the game and cleanning up.
+		PackedScene res = GD.Load<PackedScene>("res://scenes/characters.tscn");
+		Characters = res.Instantiate<Node3D>();
+		Characters.Position = Vector3.Zero;
+		map.AddChild(Characters);
 	}
 
-	private async void IsEnd()
+	public async void EndGame()
 	{
-		List<Player> players = map.GetPlayers();
-        if (!players[0].isAlive())
-        {
-            await Task.Delay(TimeSpan.FromMilliseconds(200));
-			//GD.Print("after 2 seconds");
-			if (!players[1].isAlive())
-			{
-				//draw
-			}
-			else 
-			{
-				//GD.Print("Player 2 wins");
-				scores[1]++;
-			}
-			EndGame();
-        }
-        else if (!players[1].isAlive())
-        {
-            await Task.Delay(TimeSpan.FromMilliseconds(2000));
-			//GD.Print("after 2 seconds");
-			if (!players[0].isAlive())
-			{
-				//draw
-			}
-			else 
-			{
-				//GD.Print("Player 1 wins");
-				scores[0]++;
-			}
-			EndGame();
-        }
+		//Wait for some time for draw condition
+		await Task.Delay(TimeSpan.FromMilliseconds(3000));
+
+		//Then check if it is a draw or a win
+		if (IsDraw())
+		{
+			GD.Print("Draw!");
+			GetTree().ChangeSceneToFile("res://UserInterface/gameEnd.tscn");
+		}
+		else
+		{
+			GD.Print("Player " + map.GetPlayers()[0].GetPlayerID() + " wins!");
+			GetTree().ChangeSceneToFile("res://UserInterface/gameEnd.tscn");
+		}
+	}
+
+	private bool IsEnd()
+	{
+		return map.GetPlayers().Count == 1;
+	}
+	private bool IsDraw()
+	{
+		return map.GetPlayers().Count == 0;
 	}
 }

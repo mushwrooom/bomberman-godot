@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Linq;
 
 /// <summary>
 /// Provides a base class for different types of power-ups in the game. 
@@ -8,12 +9,6 @@ using System;
 /// </summary>
 public abstract partial class Generic_PowerUp : Node
 {
-    
-    public int duration; // Duration of the power-up effect, exposed to the Godot editor.
-
-  
-    public bool is_cumulative;
-
     /// <summary>
     /// Applies the effect of the power-up to the specified player.
     /// </summary>
@@ -37,7 +32,15 @@ public abstract partial class Generic_PowerUp : Node
     {
         // Default implementation: No operation.
     }
-        
+    protected static bool HasPowerUp<T>(Player player) where T : Generic_PowerUp
+    {
+        return player.powerUps.Any(p => p is T);
+    }
+    public override string ToString()
+    {
+        string s = GetType().Name;
+        return s.Remove(s.IndexOf('_'));
+    }
 }
 
 

@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://bd2lpwvc5jg34"]
+
+[ext_resource type="PackedScene" uid="uid://ciwcdh4raurct" path="res://scenes/player.tscn" id="1_uf8fn"]
+[ext_resource type="PackedScene" uid="uid://uqdmvvjxlda2" path="res://scenes/monster.tscn" id="2_ety6i"]
+
+[node name="Characters" type="Node3D"]
+
+[node name="Map" parent="." instance_placeholder="res://scenes/maps/map.tscn"]
+
+[node name="Players" type="Node3D" parent="."]
+
+[node name="Player1" parent="Players" instance=ExtResource("1_uf8fn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 1.5, -4.5)
+
+[node name="Player2" parent="Players" instance=ExtResource("1_uf8fn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 1.5, 4.5)
+
+[node name="Monsters" type="Node3D" parent="."]
+
+[node name="Monster" parent="Monsters" instance=ExtResource("2_ety6i")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 1.5, -0.5)

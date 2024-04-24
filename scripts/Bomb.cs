@@ -13,11 +13,6 @@ public partial class Bomb : StaticBody3D
 	private PackedScene blast;
 	bool exploded = false;
 
-	public void SetBlastRange(int a)
-	{
-		blastRange = a;
-	}
-
 	public void Explode()
 	{
 		// Destroying the object without losing the reference
@@ -26,8 +21,6 @@ public partial class Bomb : StaticBody3D
 		GetNode<CollisionShape3D>("CollisionShape3D").Disabled = true;
 		GetTile(Position).SetContent(null);
 		player.Bombs.Remove(this);
-
-
 		// Create blast in place and then create in 4 directions
 		InstantiateBlast(Position, Position + Vector3.Forward);
 		CreateBlast(Vector3.Right);
@@ -36,13 +29,14 @@ public partial class Bomb : StaticBody3D
 		CreateBlast(Vector3.Forward);
 	}
 
-	private void InstantiateBlast(Vector3 pos, Vector3 dir) {
+	private void InstantiateBlast(Vector3 pos, Vector3 dir)
+	{
 		RigidBody3D blastInstance = blast.Instantiate<RigidBody3D>();
 		blastInstance.LookAtFromPosition(Position, dir);
 		blastInstance.Position = new Vector3(pos.X, 1.0f, pos.Z);
 		GetParent().AddChild(blastInstance);
 	}
-	
+
 	private async void CreateBlast(Vector3 direction)
 	{
 		for (int i = 1; i <= BlastRange; i++)
@@ -63,15 +57,15 @@ public partial class Bomb : StaticBody3D
 			{
 				return;
 			}
-			else if (projectedTile.Content is Box)
+			else if (projectedTile.Content is Box box)
 			{
-				projectedTile.Content.GetChild(0).GetOwner<Box>().Destroy();
+				box.GetChild(0).GetOwner<Box>().Destroy();
 				projectedTile.SetContent(null);
 				return;
 			}
-			else if (projectedTile.Content is Bomb)
+			else if (projectedTile.Content is Bomb bomb)
 			{
-				(projectedTile.Content as Bomb).Explode();
+				bomb.Explode();
 				projectedTile.SetContent(null);
 				return;
 			}
@@ -80,14 +74,15 @@ public partial class Bomb : StaticBody3D
 		}
 	}
 
-	
+
 
 	public Tile GetTile(Vector3 pos)
 	{
 		var spaceState = GetWorld3D().DirectSpaceState;
 		var query = PhysicsRayQueryParameters3D.Create(pos, Vector3.Down * 100, 2);
 		var result = spaceState.IntersectRay(query);
-		// Null propagation
+
+		// If the raycast does not hit anything, return null
 		return result.Count == 0 ? null : result["collider"].As<Tile>();
 	}
 
@@ -99,7 +94,7 @@ public partial class Bomb : StaticBody3D
 
 	public void onTimerTimeout()
 	{
-		if(!exploded)
+		if (!exploded && !HasDetonator)
 			Explode();
 	}
 }

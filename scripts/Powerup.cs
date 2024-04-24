@@ -26,39 +26,7 @@ public partial class Powerup : StaticBody3D {
     
     public void SetLabel(Generic_PowerUp powerupType)
     {
-        if (powerupType is Blast_PowerUp)
-        {
-            label.Text = "Blast Range";
-        }
-        else if (powerupType is Number_PowerUp)
-        {
-            label.Text = "Bomb Count";
-        }
-
-        else if (powerupType is Detonator_PowerUp)
-        {
-            label.Text = "Detonator";
-        }
-
-        else if (powerupType is Roller_PowerUp)
-        {
-            label.Text = "Roller Skate";
-        }
-
-        else if (powerupType is Invincibility_PowerUp)
-        {
-            label.Text = "Invincibility";
-        }
-        else if (powerupType is Ghost_PowerUp)
-        {
-            label.Text = "Ghost";
-        }
-        else if(powerupType is Obstacle_PowerUp)
-        {
-            label.Text = "Obstacle";
-        }
+        label.Text = powerupType.ToString();
     }
-
-
 }
 

@@ -4,11 +4,14 @@
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_wcvpo"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_4vf7a"]
-size = Vector3(0.9, 1, 0.9)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4w57m"]
+albedo_color = Color(0.537255, 0.192157, 0, 1)
+roughness = 0.01
+ao_light_affect = 0.41
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mm8jn"]
-albedo_color = Color(1, 0.529412, 0.537255, 1)
+[sub_resource type="BoxMesh" id="BoxMesh_4vf7a"]
+material = SubResource("StandardMaterial3D_4w57m")
+size = Vector3(0.9, 1, 0.9)
 
 [node name="Box" type="StaticBody3D"]
 collision_layer = 16
@@ -20,4 +23,3 @@ shape = SubResource("BoxShape3D_wcvpo")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_4vf7a")
-surface_material_override/0 = SubResource("StandardMaterial3D_mm8jn")

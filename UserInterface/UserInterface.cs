@@ -3,13 +3,8 @@ using System;
 
 public partial class UserInterface : Control
 {
-	
-	private Main main;
-	public override void _Ready(){
-		main = GetNode<Main>("/root/Main");
-	}
 	public void _on_play_pressed(){
-		main.StartGame();	
+		GetTree().ChangeSceneToFile("res://scenes/main.tscn");
 	}
 	public void _on_settings_pressed(){
 
@@ -18,7 +13,4 @@ public partial class UserInterface : Control
 	public void _on_quit_pressed(){
 		GetTree().Quit();
 	}
-
-	
-
 }

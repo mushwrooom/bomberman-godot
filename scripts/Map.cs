@@ -10,12 +10,12 @@ using Godot;
 /// </summary>
 public partial class Map : Node3D
 {
-	public double shrinkTime = 10.0; 
+	public double shrinkTime = 20.0; 
 	private int shrunkCount = 0;
 	private Tile[,] tiles;
-	private List<Wall> walls = new List<Wall>();
-	public List<Player> players = new List<Player>();
-	private List<Monster> monsters = new List<Monster>();
+	private List<Wall> walls = new();
+	public List<Player> players = new();
+	private List<Monster> monsters = new();
 	private List<Box> boxes = new List<Box>();
 
 	private PackedScene _tilex;
@@ -44,6 +44,7 @@ public partial class Map : Node3D
 
 	public List<Player> GetPlayers()
 	{
+		players = GetNode<Node3D>("Characters/Players").GetChildren().Select(x => x as Player).ToList();
 		return players;
 	}
 
@@ -54,8 +55,12 @@ public partial class Map : Node3D
 	{
 		if (shrunkCount < 5)
 		{
+			shrunkCount++;
 			Shrink();
-			timer.WaitTime--;
+
+			// Decrease the time for the next shrink
+			double deductTime = (shrunkCount/5) * (shrinkTime/2);
+			timer.WaitTime = shrinkTime - deductTime;
 		}
 	}
 
@@ -89,34 +94,10 @@ public partial class Map : Node3D
 	}
 
 	/// <summary>
-	/// Sets up player entities in the game world based on the specified player count and control configurations.
-	/// </summary>
-	public void SetupPlayers(int playerCount, List<Dictionary<Control, Key>> playerControls)
-	{
-		// players.Add(GetParent().GetNode<Player>("Characters/Player1"));
-		// players.Add(GetParent().GetNode<Player>("Characters/Player2"));
-		//GD.Print("players: "+players.Count()+" :"+ players[0].GetPlayerID()+" "+players[1].GetPlayerID() );
-	}
-
-	/// <summary>
-	/// Sets up monster entities on the map. Currently adds a fixed number of monsters.
-	/// </summary>
-	/// <param name="monsterCount">The number of monsters to add (currently unused).</param>
-	public void SetupMonsters(int monsterCount)
-	{
-		for (int i = 0; i < 4; i++)
-		{
-			var monster = new Monster();
-			monsters.Add(monster);
-		}
-	}
-
-	/// <summary>
 	/// Shrink the map.
 	/// </summary>
 	private async void Shrink()
 	{
-		shrunkCount++;
 		List<Wall> all = new();
 		foreach (Wall wall in walls)
 		{
