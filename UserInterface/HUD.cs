@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Reflection.Metadata.Ecma335;
 
 
-public partial class HUD : Node2D
+public partial class HUD : Control
 {
 
     private int bombCountP1;
@@ -13,44 +13,41 @@ public partial class HUD : Node2D
     private Label bombCountLabelP2;
     private Label blastCountLabelP1, numberCountLabelP1, obstacleLabel1, ghostLabel1, invLabel1, rollLabel1, detLabel1;
     private Label blastCountLabelP2, numberCountLabelP2, obstacleLabel2, ghostLabel2, invLabel2, rollLabel2, detLabel2;
-    private Player player1;
-    private Player player2;
+    public Player player1;
+    public Player player2;
+    public Timer timer;
+    private Label timerLabel;
 
-   private int lastPlayer1BlastPowerUpCount,lastPlayer1NumberPowerUpCount , lastp1obstacle, last1ghost, last1inv, last1roll, last1det=0;
-    private int lastPlayer2BlastPowerUpCount, lastPlayer2NumberPowerUpCount, lastp2obstacle , last2ghost, last2inv, last2roll, last2det= 0; 
-
-
-
-   
+    private int lastPlayer1BlastPowerUpCount, lastPlayer1NumberPowerUpCount, lastp1obstacle, last1ghost, last1inv, last1roll, last1det = 0;
+    private int lastPlayer2BlastPowerUpCount, lastPlayer2NumberPowerUpCount, lastp2obstacle, last2ghost, last2inv, last2roll, last2det = 0;
 
     public override void _Ready()
     {
-        bombCountLabelP1 = GetNode<Label>("MarginContainer/BoxContainer/HBoxContainer/bomb_count");
-        bombCountLabelP2 = GetNode<Label>("MarginContainer2/BoxContainer/HBoxContainer/bomb_count2");
-        blastCountLabelP1 = GetNode<Label>("MarginContainer/BoxContainer/HBoxContainer/BlastShow");
-        blastCountLabelP2 = GetNode<Label>("MarginContainer2/BoxContainer/HBoxContainer/BlastShow");
-        numberCountLabelP1 = GetNode<Label>("MarginContainer/BoxContainer/HBoxContainer/NumberShow");
-        numberCountLabelP2 = GetNode<Label>("MarginContainer2/BoxContainer/HBoxContainer/NumberShow");
-        obstacleLabel1 = GetNode<Label>("MarginContainer/BoxContainer/HBoxContainer/ObstacleShow");
-        obstacleLabel2 = GetNode<Label>("MarginContainer2/BoxContainer/HBoxContainer/ObstacleShow");
-        ghostLabel1 = GetNode<Label>("MarginContainer/BoxContainer/HBoxContainer/GhostShow");
-        ghostLabel2 = GetNode<Label>("MarginContainer2/BoxContainer/HBoxContainer/GhostShow");
-        invLabel1 = GetNode<Label>("MarginContainer/BoxContainer/HBoxContainer/InvincSHow");
-        invLabel2 = GetNode<Label>("MarginContainer2/BoxContainer/HBoxContainer/InvincSHow");
-        rollLabel1 = GetNode<Label>("MarginContainer/BoxContainer/HBoxContainer/Roller_skate_show");
-        rollLabel2 = GetNode<Label>("MarginContainer2/BoxContainer/HBoxContainer/Roller_skate_show");
-        detLabel1 = GetNode<Label>("MarginContainer/BoxContainer/HBoxContainer/Deetonator_show");
-        detLabel2 = GetNode<Label>("MarginContainer2/BoxContainer/HBoxContainer/Deetonator_show");
-        
+        bombCountLabelP1 = GetNode<Label>("BoxContainer/MarginContainer/BoxContainer/HBoxContainer/bomb_count");
+        bombCountLabelP2 = GetNode<Label>("BoxContainer/MarginContainer2/BoxContainer/HBoxContainer/bomb_count2");
+        blastCountLabelP1 = GetNode<Label>("BoxContainer/MarginContainer/BoxContainer/HBoxContainer/BlastShow");
+        blastCountLabelP2 = GetNode<Label>("BoxContainer/MarginContainer2/BoxContainer/HBoxContainer/BlastShow");
+        numberCountLabelP1 = GetNode<Label>("BoxContainer/MarginContainer/BoxContainer/HBoxContainer/NumberShow");
+        numberCountLabelP2 = GetNode<Label>("BoxContainer/MarginContainer2/BoxContainer/HBoxContainer/NumberShow");
+        obstacleLabel1 = GetNode<Label>("BoxContainer/MarginContainer/BoxContainer/HBoxContainer/ObstacleShow");
+        obstacleLabel2 = GetNode<Label>("BoxContainer/MarginContainer2/BoxContainer/HBoxContainer/ObstacleShow");
+        ghostLabel1 = GetNode<Label>("BoxContainer/MarginContainer/BoxContainer/HBoxContainer/GhostShow");
+        ghostLabel2 = GetNode<Label>("BoxContainer/MarginContainer2/BoxContainer/HBoxContainer/GhostShow");
+        invLabel1 = GetNode<Label>("BoxContainer/MarginContainer/BoxContainer/HBoxContainer/InvincSHow");
+        invLabel2 = GetNode<Label>("BoxContainer/MarginContainer2/BoxContainer/HBoxContainer/InvincSHow");
+        rollLabel1 = GetNode<Label>("BoxContainer/MarginContainer/BoxContainer/HBoxContainer/Roller_skate_show");
+        rollLabel2 = GetNode<Label>("BoxContainer/MarginContainer2/BoxContainer/HBoxContainer/Roller_skate_show");
+        detLabel1 = GetNode<Label>("BoxContainer/MarginContainer/BoxContainer/HBoxContainer/Deetonator_show");
+        detLabel2 = GetNode<Label>("BoxContainer/MarginContainer2/BoxContainer/HBoxContainer/Deetonator_show");
+        timerLabel = GetNode<Label>("BoxContainer/Timer/Label");
+        // player1 = GetNode<Map>("/root/Main/Map").GetPlayers()[0];
+        // player2 = GetNode<Map>("/root/Main/Map").GetPlayers()[1];
 
-        player1 = GetNodeOrNull<Map>("/root/Main/Map").players[0];
-        player2 = GetNodeOrNull<Map>("/root/Main/Map").players[1];
-        
         UpdateBombDisplay();
 
     }
 
- 
+
 
 
     private int CountBlastPowerUps(List<Generic_PowerUp> powerUps)
@@ -67,64 +64,74 @@ public partial class HUD : Node2D
         return count;
     }
 
-    private int CountNumberPowerUps(List<Generic_PowerUp> powerUps){
+    private int CountNumberPowerUps(List<Generic_PowerUp> powerUps)
+    {
 
         int cnt = 0;
-        foreach(var powerup in powerUps){
-            if(powerup is Number_PowerUp){
+        foreach (var powerup in powerUps)
+        {
+            if (powerup is Number_PowerUp)
+            {
                 cnt++;
             }
         }
 
 
         return cnt;
-    }  
+    }
 
 
-    private int CountObstacle(List<Generic_PowerUp> powerUps){
+    private int CountObstacle(Player player)
+    {
+        return player.ObstacleStock;
+    }
+
+    private int CountGhost(List<Generic_PowerUp> powerUps)
+    {
         int cnt = 0;
-        foreach(var pup in powerUps){
-            if(pup is Obstacle_PowerUp){
-                cnt++;
-            }
-        }
-        return cnt;
-    } 
-
-    private int CountGhost(List<Generic_PowerUp> powerUps){
-        int cnt = 0;
-        foreach(var pup in powerUps){
-            if(pup is Ghost_PowerUp){
+        foreach (var pup in powerUps)
+        {
+            if (pup is Ghost_PowerUp)
+            {
                 cnt++;
             }
         }
         return cnt;
     }
 
-    private int CountInv(List<Generic_PowerUp> powerUps){
-       int cnt = 0;
-        foreach(var pup in powerUps){
-            if(pup is Invincibility_PowerUp){
+    private int CountInv(List<Generic_PowerUp> powerUps)
+    {
+        int cnt = 0;
+        foreach (var pup in powerUps)
+        {
+            if (pup is Invincibility_PowerUp)
+            {
                 cnt++;
             }
         }
         return cnt;
     }
 
-    private int CountRoll(List<Generic_PowerUp> powerUps){
+    private int CountRoll(List<Generic_PowerUp> powerUps)
+    {
         int cnt = 0;
-        foreach(var pup in powerUps){
-            if(pup is Roller_PowerUp){
+        foreach (var pup in powerUps)
+        {
+            if (pup is Roller_PowerUp)
+            {
                 cnt++;
             }
         }
         return cnt;
     }
 
-    private int CountDet(List<Generic_PowerUp> powerUps){
+    private int CountDet(List<Generic_PowerUp> powerUps)
+    {
         int cnt = 0;
-        foreach(var pup in powerUps){
-            if(pup is Detonator_PowerUp){
+        foreach (var pup in powerUps)
+        {
+            if (pup is Detonator_PowerUp)
+            {
                 cnt++;
             }
         }
@@ -147,9 +154,7 @@ public partial class HUD : Node2D
 
     public override void _Process(double delta)
     {
-
-
-         base._Process(delta);
+        timerLabel.Text = timer.TimeLeft.ToString("0.0");
 
         // P1
         int player1BlastPowerUpCount = CountBlastPowerUps(player1.powerUps);
@@ -160,28 +165,31 @@ public partial class HUD : Node2D
         }
 
         int player1NumberPowerUpCount = CountNumberPowerUps(player1.powerUps);
-        if(player1NumberPowerUpCount != lastPlayer1NumberPowerUpCount){
+        if (player1NumberPowerUpCount != lastPlayer1NumberPowerUpCount)
+        {
             numberCountLabelP1.Text = player1NumberPowerUpCount.ToString();
             lastPlayer1NumberPowerUpCount = player1NumberPowerUpCount;
         }
 
 
-         int p1ObsCount = CountObstacle(player1.powerUps);
+        int p1ObsCount = CountObstacle(player1);
         if (p1ObsCount != lastp1obstacle)
         {
-            obstacleLabel1.Text = p1ObsCount.ToString();
+            obstacleLabel1.Text = player1.ObstacleStock.ToString();
             lastp1obstacle = p1ObsCount;
         }
 
         int p1GhostCnt = CountGhost(player1.powerUps);
-        if(p1GhostCnt != last1ghost){
+        if (p1GhostCnt != last1ghost)
+        {
 
             ghostLabel1.Text = p1GhostCnt.ToString();
             last1ghost = p1GhostCnt;
         }
 
         int p1InvCnt = CountInv(player1.powerUps);
-        if(p1InvCnt != last1inv){
+        if (p1InvCnt != last1inv)
+        {
 
             invLabel1.Text = p1InvCnt.ToString();
             last1inv = p1InvCnt;
@@ -189,7 +197,8 @@ public partial class HUD : Node2D
 
         int p1RollCnt = CountRoll(player1.powerUps);
 
-        if(p1RollCnt != last1roll){
+        if (p1RollCnt != last1roll)
+        {
 
             rollLabel1.Text = p1RollCnt.ToString();
             last1roll = p1RollCnt;
@@ -197,7 +206,8 @@ public partial class HUD : Node2D
 
         int p1DetCnt = CountDet(player1.powerUps);
 
-        if(p1DetCnt != last1det){
+        if (p1DetCnt != last1det)
+        {
 
             detLabel1.Text = p1DetCnt.ToString();
             last1det = p1DetCnt;
@@ -217,28 +227,31 @@ public partial class HUD : Node2D
         }
 
         int player2NumberPowerUpCount = CountNumberPowerUps(player2.powerUps);
-        if(player2NumberPowerUpCount != lastPlayer2NumberPowerUpCount){
+        if (player2NumberPowerUpCount != lastPlayer2NumberPowerUpCount)
+        {
             numberCountLabelP2.Text = player2NumberPowerUpCount.ToString();
             lastPlayer2NumberPowerUpCount = player2NumberPowerUpCount;
         }
 
-        int p2ObsCount = CountObstacle(player2.powerUps);
+        int p2ObsCount = CountObstacle(player2);
         if (p2ObsCount != lastp2obstacle)
         {
-            obstacleLabel2.Text = p2ObsCount.ToString();
+            obstacleLabel2.Text = player2.ObstacleStock.ToString();
             lastp2obstacle = p2ObsCount;
         }
 
         int p2GhostCnt = CountGhost(player2.powerUps);
-        if(p1GhostCnt != last2ghost){
+        if (p1GhostCnt != last2ghost)
+        {
 
             ghostLabel2.Text = p1GhostCnt.ToString();
             last2ghost = p2GhostCnt;
         }
 
 
-          int p2InvCnt = CountInv(player2.powerUps);
-        if(p2InvCnt != last2inv){
+        int p2InvCnt = CountInv(player2.powerUps);
+        if (p2InvCnt != last2inv)
+        {
 
             invLabel2.Text = p2InvCnt.ToString();
             last2inv = p2InvCnt;
@@ -247,7 +260,8 @@ public partial class HUD : Node2D
 
         int p2RollCnt = CountRoll(player2.powerUps);
 
-        if(p2RollCnt != last2roll){
+        if (p2RollCnt != last2roll)
+        {
 
             rollLabel2.Text = p2RollCnt.ToString();
             last2roll = p2RollCnt;
@@ -256,7 +270,8 @@ public partial class HUD : Node2D
 
         int p2DetCnt = CountDet(player2.powerUps);
 
-        if(p2DetCnt != last2det){
+        if (p2DetCnt != last2det)
+        {
 
             detLabel2.Text = p2DetCnt.ToString();
             last2det = p2DetCnt;
@@ -282,6 +297,6 @@ public partial class HUD : Node2D
             }
         }
 
-        
+
     }
 }

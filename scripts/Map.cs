@@ -21,7 +21,7 @@ public partial class Map : Node3D
 	private PackedScene _tilex;
 	private PackedScene wallScene;
 	private PackedScene blastScene;
-	private Timer timer;
+	public Timer timer;
 
 	/// <summary>
 	/// Called when the node enters the scene tree. Initializes the map by loading the tile scene and creating the field.
@@ -55,12 +55,14 @@ public partial class Map : Node3D
 	{
 		if (shrunkCount < 5)
 		{
+
 			shrunkCount++;
 			Shrink();
 
 			// Decrease the time for the next shrink
-			double deductTime = (shrunkCount/5) * (shrinkTime/2);
+			double deductTime = shrinkTime / 5;
 			timer.WaitTime = shrinkTime - deductTime;
+			timer.Start();
 		}
 	}
 

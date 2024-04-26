@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 public partial class Main : Node
 {
+	public Global global;
 	public string currentMap = "res://scenes/maps/map.tscn";
 	public Map map;
 	public Node3D Characters;
@@ -18,6 +19,9 @@ public partial class Main : Node
 
 	public override void _Ready()
 	{
+		global = GetNode<Global>("/root/Global");
+		currentMap = global.currentMap;
+		playerControls = global.playerControls;
 		StartGame();
 	}
 	public override void _Process(double delta)
@@ -39,6 +43,15 @@ public partial class Main : Node
 		map.CreateField(10, 10);
 
 		SetupCharacters();
+
+		// Setup HUD
+		PackedScene hudRes = GD.Load<PackedScene>("res://UserInterface/HUD.tscn");
+		HUD hud = hudRes.Instantiate<HUD>();
+		// hud.Position = Vector2.Zero;
+		GetNode("Misc").AddChild(hud);
+		hud.player1 = map.GetPlayers()[0];
+		hud.player2 = map.GetPlayers()[1];
+		hud.timer = map.timer;
 	}
 
 	public void SetupCharacters()
@@ -58,12 +71,12 @@ public partial class Main : Node
 		if (IsDraw())
 		{
 			GD.Print("Draw!");
-			GetTree().ChangeSceneToFile("res://UserInterface/gameEnd.tscn");
+			GetTree().ChangeSceneToFile("res://UserInterface/EndScreen.tscn");
 		}
 		else
 		{
 			GD.Print("Player " + map.GetPlayers()[0].GetPlayerID() + " wins!");
-			GetTree().ChangeSceneToFile("res://UserInterface/gameEnd.tscn");
+			GetTree().ChangeSceneToFile("res://UserInterface/EndScreen.tscn");
 		}
 	}
 

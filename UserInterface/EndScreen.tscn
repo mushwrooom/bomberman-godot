@@ -1,15 +1,18 @@
-[gd_scene load_steps=2 format=3 uid="uid://it6vf0pv30mg"]
+[gd_scene load_steps=3 format=3 uid="uid://it6vf0pv30mg"]
+
+[ext_resource type="Script" path="res://UserInterface/EndScreen.cs" id="1_rna0k"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_2y3e3"]
 font_size = 62
 
-[node name="GameEnd" type="Control"]
+[node name="EndScreen" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_rna0k")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 2
@@ -44,3 +47,5 @@ label_settings = SubResource("LabelSettings_2y3e3")
 [node name="Button" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Restart"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Button" to="." method="_on_button_pressed"]
