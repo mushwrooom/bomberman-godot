@@ -8,6 +8,8 @@ public partial class Ghost_PowerUp : Generic_PowerUp
 {
     public int duration = 5;
     bool appearGhost = false;
+
+    //change the appearance of the player to transparent once Ghost powerup is started
     public void ShowGhostEffect(Player player)
     {
         appearGhost = true;
@@ -19,6 +21,7 @@ public partial class Ghost_PowerUp : Generic_PowerUp
         };
     }
 
+    //change the appearance of the player back to its normal shade and revert the transparency
     public void HideGhostEffect(Player player)
     {
         appearGhost = false;
@@ -30,12 +33,14 @@ public partial class Ghost_PowerUp : Generic_PowerUp
         };
     }
 
+    // function to check if the player is on a wall or a box by the end of the powerup
     public bool IsOnForbiddenTile(Player player)
     {
         var GetCurrentTile = player.GetCurrentTile().Content;
         bool isForbidden = GetCurrentTile is Wall || GetCurrentTile is Box;
         return isForbidden;
     }
+
 
     public override void ApplyEffect(Player player)
     {
@@ -54,17 +59,21 @@ public partial class Ghost_PowerUp : Generic_PowerUp
         StartEffect(player);
     }
 
+    //Ending Ghost Powerup
     public override async void EndEffect(Player player)
     {
+        //remove powerup
         player.powerUps.Remove(this);
 
-        int ms = 500;
+        //flashing effect
+        int ms = 500; 
         for (int i = 0; i < 6; i++)
         {
             if (appearGhost)
                 HideGhostEffect(player);
             else
                 ShowGhostEffect(player);
+                
             await Task.Delay(TimeSpan.FromMilliseconds(ms));
 
             // If the player has another ghost powerup, terminate the end sequence
@@ -76,7 +85,7 @@ public partial class Ghost_PowerUp : Generic_PowerUp
             }
         }
 
-        // Check if the player is on a forbidden tile
+        // Check if the player is on a forbidden tile, and if the player is, it dies
         if (IsOnForbiddenTile(player))
             player.Die();
 
@@ -88,6 +97,7 @@ public partial class Ghost_PowerUp : Generic_PowerUp
         player.GhostTimer = null;
     }
 
+    //Starting Ghost Powerup
     private void StartEffect(Player player)
     {
         ShowGhostEffect(player);
