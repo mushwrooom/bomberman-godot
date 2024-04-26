@@ -123,7 +123,7 @@ public partial class Player : CharacterBody3D
         Move(delta);
 
         // Check if the player has exited the occupied tile
-        if (InsideObject != null && GetCurrentTile().Content != InsideObject)
+        if (InsideObject != null && InsideObject.IsVisibleInTree() && GetCurrentTile().Content != InsideObject)
         {
             RemoveCollisionExceptionWith(InsideObject);
             InsideObject = null;
@@ -233,6 +233,7 @@ public partial class Player : CharacterBody3D
 
     public void PlaceObstacle()
     {
+        if (ObstacleStock <= 0) return;
         // Terminate if there is something inside tile
         if (GetCurrentTile().Content != null) return;
 

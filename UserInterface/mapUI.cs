@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 public partial class mapUI : Control
 {
-	private Main main;
+	private Global global;
 
 	/// <summary>
     /// Maps button names to their respective scene paths for map selection.
@@ -22,20 +22,20 @@ public partial class mapUI : Control
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		main = GetNode<Main>("/root/Main");
+		global = GetNode<Global>("/root/Global");
 		mapButtonToScenePath.Add("Map1","res://scenes/maps/map.tscn");
 		mapButtonToScenePath.Add("Map2","res://scenes/maps/map2.tscn");
 		mapButtonToScenePath.Add("Map3","res://scenes/maps/map3.tscn");
 	}
 
 	public void _on_map_1_pressed(){
-		main.currentMap = mapButtonToScenePath["Map1"];
+		global.currentMap = mapButtonToScenePath["Map1"];
 	}
 	public void _on_map_2_pressed(){
-		main.currentMap = mapButtonToScenePath["Map2"];
+		global.currentMap = mapButtonToScenePath["Map2"];
 	}
 	public void _on_map_3_pressed(){
-		main.currentMap = mapButtonToScenePath["Map3"];
+		global.currentMap = mapButtonToScenePath["Map3"];
 	}
 
 	/// <summary>
