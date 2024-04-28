@@ -6,216 +6,223 @@
 font_size = 26
 font_color = Color(0, 0, 0, 1)
 
-[node name="Hud" type="Control"]
-layout_mode = 3
-anchors_preset = 0
-offset_left = 48.0
-offset_top = 32.0
-offset_right = 48.0
-offset_bottom = 32.0
+[node name="MarginContainer3" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
 script = ExtResource("1_ekag2")
 
-[node name="BoxContainer" type="HBoxContainer" parent="."]
-layout_mode = 0
-offset_top = -12.0
-offset_right = 1078.0
-offset_bottom = 590.0
-theme_override_constants/separation = 400
+[node name="Hud" type="HBoxContainer" parent="."]
+layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="BoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Hud"]
 layout_mode = 2
 metadata/_edit_use_anchors_ = true
 
-[node name="BoxContainer" type="BoxContainer" parent="BoxContainer/MarginContainer"]
+[node name="BoxContainer" type="BoxContainer" parent="Hud/MarginContainer"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="VBoxContainer" parent="BoxContainer/MarginContainer/BoxContainer"]
+[node name="HBoxContainer" type="VBoxContainer" parent="Hud/MarginContainer/BoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="BoxContainer/MarginContainer/BoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="Hud/MarginContainer/BoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Bomb: "
 
-[node name="bomb_count" type="Label" parent="BoxContainer/MarginContainer/BoxContainer/HBoxContainer"]
+[node name="bomb_count" type="Label" parent="Hud/MarginContainer/BoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "      "
 
-[node name="space1" type="Label" parent="BoxContainer/MarginContainer/BoxContainer/HBoxContainer"]
+[node name="space1" type="Label" parent="Hud/MarginContainer/BoxContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="Detonator" type="Label" parent="BoxContainer/MarginContainer/BoxContainer/HBoxContainer"]
+[node name="Detonator" type="Label" parent="Hud/MarginContainer/BoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Detonator:"
 
-[node name="Deetonator_show" type="Label" parent="BoxContainer/MarginContainer/BoxContainer/HBoxContainer"]
+[node name="Deetonator_show" type="Label" parent="Hud/MarginContainer/BoxContainer/HBoxContainer"]
 layout_mode = 2
 text = " "
 
-[node name="space" type="Label" parent="BoxContainer/MarginContainer/BoxContainer/HBoxContainer"]
+[node name="space" type="Label" parent="Hud/MarginContainer/BoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "     "
 
-[node name="Roller skate" type="Label" parent="BoxContainer/MarginContainer/BoxContainer/HBoxContainer"]
+[node name="Roller skate" type="Label" parent="Hud/MarginContainer/BoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Roller skate:"
 
-[node name="Roller_skate_show" type="Label" parent="BoxContainer/MarginContainer/BoxContainer/HBoxContainer"]
+[node name="Roller_skate_show" type="Label" parent="Hud/MarginContainer/BoxContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="space2" type="Label" parent="BoxContainer/MarginContainer/BoxContainer/HBoxContainer"]
+[node name="space2" type="Label" parent="Hud/MarginContainer/BoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "     "
 
-[node name="Invincibility" type="Label" parent="BoxContainer/MarginContainer/BoxContainer/HBoxContainer"]
+[node name="Invincibility" type="Label" parent="Hud/MarginContainer/BoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Invincibility: "
 
-[node name="InvincSHow" type="Label" parent="BoxContainer/MarginContainer/BoxContainer/HBoxContainer"]
+[node name="InvincSHow" type="Label" parent="Hud/MarginContainer/BoxContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="space3" type="Label" parent="BoxContainer/MarginContainer/BoxContainer/HBoxContainer"]
+[node name="space3" type="Label" parent="Hud/MarginContainer/BoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "     "
 
-[node name="Ghost" type="Label" parent="BoxContainer/MarginContainer/BoxContainer/HBoxContainer"]
+[node name="Ghost" type="Label" parent="Hud/MarginContainer/BoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Ghost:"
 
-[node name="GhostShow" type="Label" parent="BoxContainer/MarginContainer/BoxContainer/HBoxContainer"]
+[node name="GhostShow" type="Label" parent="Hud/MarginContainer/BoxContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="space4" type="Label" parent="BoxContainer/MarginContainer/BoxContainer/HBoxContainer"]
+[node name="space4" type="Label" parent="Hud/MarginContainer/BoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "     "
 
-[node name="Obstacle" type="Label" parent="BoxContainer/MarginContainer/BoxContainer/HBoxContainer"]
+[node name="Obstacle" type="Label" parent="Hud/MarginContainer/BoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Obstacle:"
 
-[node name="ObstacleShow" type="Label" parent="BoxContainer/MarginContainer/BoxContainer/HBoxContainer"]
+[node name="ObstacleShow" type="Label" parent="Hud/MarginContainer/BoxContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="space5" type="Label" parent="BoxContainer/MarginContainer/BoxContainer/HBoxContainer"]
+[node name="space5" type="Label" parent="Hud/MarginContainer/BoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "     "
 
-[node name="Blast" type="Label" parent="BoxContainer/MarginContainer/BoxContainer/HBoxContainer"]
+[node name="Blast" type="Label" parent="Hud/MarginContainer/BoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Blast:"
 
-[node name="BlastShow" type="Label" parent="BoxContainer/MarginContainer/BoxContainer/HBoxContainer"]
+[node name="BlastShow" type="Label" parent="Hud/MarginContainer/BoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "     "
 
-[node name="Number" type="Label" parent="BoxContainer/MarginContainer/BoxContainer/HBoxContainer"]
+[node name="Number" type="Label" parent="Hud/MarginContainer/BoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Number:"
 
-[node name="NumberShow" type="Label" parent="BoxContainer/MarginContainer/BoxContainer/HBoxContainer"]
+[node name="NumberShow" type="Label" parent="Hud/MarginContainer/BoxContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="Timer" type="MarginContainer" parent="BoxContainer"]
+[node name="Control" type="Control" parent="Hud"]
 layout_mode = 2
-size_flags_horizontal = 8
+size_flags_horizontal = 3
+
+[node name="Timer" type="MarginContainer" parent="Hud"]
+layout_mode = 2
+size_flags_horizontal = 4
 size_flags_vertical = 0
 
-[node name="Label" type="Label" parent="BoxContainer/Timer"]
+[node name="Label" type="Label" parent="Hud/Timer"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 1
 text = "20"
 label_settings = SubResource("LabelSettings_w3nbf")
 
-[node name="MarginContainer2" type="MarginContainer" parent="BoxContainer"]
+[node name="Control2" type="Control" parent="Hud"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer2" type="MarginContainer" parent="Hud"]
 layout_mode = 2
 metadata/_edit_use_anchors_ = true
 
-[node name="BoxContainer" type="BoxContainer" parent="BoxContainer/MarginContainer2"]
+[node name="BoxContainer" type="BoxContainer" parent="Hud/MarginContainer2"]
 layout_mode = 2
 size_flags_horizontal = 8
 
-[node name="HBoxContainer" type="VBoxContainer" parent="BoxContainer/MarginContainer2/BoxContainer"]
+[node name="HBoxContainer" type="VBoxContainer" parent="Hud/MarginContainer2/BoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 
-[node name="Label" type="Label" parent="BoxContainer/MarginContainer2/BoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="Hud/MarginContainer2/BoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Bomb: "
 
-[node name="bomb_count2" type="Label" parent="BoxContainer/MarginContainer2/BoxContainer/HBoxContainer"]
+[node name="bomb_count2" type="Label" parent="Hud/MarginContainer2/BoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "      "
 
-[node name="space1" type="Label" parent="BoxContainer/MarginContainer2/BoxContainer/HBoxContainer"]
+[node name="space1" type="Label" parent="Hud/MarginContainer2/BoxContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="Detonator" type="Label" parent="BoxContainer/MarginContainer2/BoxContainer/HBoxContainer"]
+[node name="Detonator" type="Label" parent="Hud/MarginContainer2/BoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Detonator:"
 
-[node name="Deetonator_show" type="Label" parent="BoxContainer/MarginContainer2/BoxContainer/HBoxContainer"]
+[node name="Deetonator_show" type="Label" parent="Hud/MarginContainer2/BoxContainer/HBoxContainer"]
 layout_mode = 2
 text = " "
 
-[node name="space" type="Label" parent="BoxContainer/MarginContainer2/BoxContainer/HBoxContainer"]
+[node name="space" type="Label" parent="Hud/MarginContainer2/BoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "     "
 
-[node name="Roller skate" type="Label" parent="BoxContainer/MarginContainer2/BoxContainer/HBoxContainer"]
+[node name="Roller skate" type="Label" parent="Hud/MarginContainer2/BoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Roller skate:"
 
-[node name="Roller_skate_show" type="Label" parent="BoxContainer/MarginContainer2/BoxContainer/HBoxContainer"]
+[node name="Roller_skate_show" type="Label" parent="Hud/MarginContainer2/BoxContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="space2" type="Label" parent="BoxContainer/MarginContainer2/BoxContainer/HBoxContainer"]
+[node name="space2" type="Label" parent="Hud/MarginContainer2/BoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "     "
 
-[node name="Invincibility" type="Label" parent="BoxContainer/MarginContainer2/BoxContainer/HBoxContainer"]
+[node name="Invincibility" type="Label" parent="Hud/MarginContainer2/BoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Invincibility: "
 
-[node name="InvincSHow" type="Label" parent="BoxContainer/MarginContainer2/BoxContainer/HBoxContainer"]
+[node name="InvincSHow" type="Label" parent="Hud/MarginContainer2/BoxContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="space3" type="Label" parent="BoxContainer/MarginContainer2/BoxContainer/HBoxContainer"]
+[node name="space3" type="Label" parent="Hud/MarginContainer2/BoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "     "
 
-[node name="Ghost" type="Label" parent="BoxContainer/MarginContainer2/BoxContainer/HBoxContainer"]
+[node name="Ghost" type="Label" parent="Hud/MarginContainer2/BoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Ghost:"
 
-[node name="GhostShow" type="Label" parent="BoxContainer/MarginContainer2/BoxContainer/HBoxContainer"]
+[node name="GhostShow" type="Label" parent="Hud/MarginContainer2/BoxContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="space4" type="Label" parent="BoxContainer/MarginContainer2/BoxContainer/HBoxContainer"]
+[node name="space4" type="Label" parent="Hud/MarginContainer2/BoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "     "
 
-[node name="Obstacle" type="Label" parent="BoxContainer/MarginContainer2/BoxContainer/HBoxContainer"]
+[node name="Obstacle" type="Label" parent="Hud/MarginContainer2/BoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Obstacle:"
 
-[node name="ObstacleShow" type="Label" parent="BoxContainer/MarginContainer2/BoxContainer/HBoxContainer"]
+[node name="ObstacleShow" type="Label" parent="Hud/MarginContainer2/BoxContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="space5" type="Label" parent="BoxContainer/MarginContainer2/BoxContainer/HBoxContainer"]
+[node name="space5" type="Label" parent="Hud/MarginContainer2/BoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "     "
 
-[node name="Blast" type="Label" parent="BoxContainer/MarginContainer2/BoxContainer/HBoxContainer"]
+[node name="Blast" type="Label" parent="Hud/MarginContainer2/BoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Blast:"
 
-[node name="BlastShow" type="Label" parent="BoxContainer/MarginContainer2/BoxContainer/HBoxContainer"]
+[node name="BlastShow" type="Label" parent="Hud/MarginContainer2/BoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "     "
 
-[node name="Number" type="Label" parent="BoxContainer/MarginContainer2/BoxContainer/HBoxContainer"]
+[node name="Number" type="Label" parent="Hud/MarginContainer2/BoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Number:"
 
-[node name="NumberShow" type="Label" parent="BoxContainer/MarginContainer2/BoxContainer/HBoxContainer"]
+[node name="NumberShow" type="Label" parent="Hud/MarginContainer2/BoxContainer/HBoxContainer"]
 layout_mode = 2

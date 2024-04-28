@@ -10,7 +10,7 @@ using Godot;
 /// </summary>
 public partial class Map : Node3D
 {
-	public double shrinkTime = 20.0; 
+	public double shrinkTime = 30.0; 
 	private int shrunkCount = 0;
 	private Tile[,] tiles;
 	private List<Wall> walls = new();
