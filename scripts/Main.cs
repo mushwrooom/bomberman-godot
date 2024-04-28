@@ -13,15 +13,11 @@ public partial class Main : Node
 	public string currentMap = "res://scenes/maps/map.tscn";
 	public Map map;
 	public Node3D Characters;
-	public static int playerCount = 2;
-	public Dictionary<Control, Key>[] playerControls = new Dictionary<Control, Key>[playerCount];
-	public int[] scores = new int[playerCount];
 
 	public override void _Ready()
 	{
 		global = GetNode<Global>("/root/Global");
 		currentMap = global.currentMap;
-		playerControls = global.playerControls;
 		StartGame();
 	}
 
@@ -60,6 +56,7 @@ public partial class Main : Node
 
 	public void SetupCharacters()
 	{
+		// Instantiate the characters
 		PackedScene res = GD.Load<PackedScene>("res://scenes/characters.tscn");
 		Characters = res.Instantiate<Node3D>();
 		Characters.Position = Vector3.Zero;
@@ -78,14 +75,17 @@ public partial class Main : Node
 		//Then check if it is a draw or a win
 		if (IsDraw())
 		{
-			GD.Print("Draw!");
-			GetTree().ChangeSceneToFile("res://UserInterface/EndScreen.tscn");
+			for(int i = 0; i < global.scores.Count(); i++){
+				global.scores[i]++;
+			}
+			global.endMessage = "Draw!";
 		}
 		else
 		{
-			GD.Print("Player " + map.GetPlayers()[0].GetPlayerID() + " wins!");
-			GetTree().ChangeSceneToFile("res://UserInterface/EndScreen.tscn");
+			global.scores[map.GetPlayers()[0].GetPlayerID()-1]++;
+			global.endMessage = "Player " + map.GetPlayers()[0].GetPlayerID() + " wins!";
 		}
+		GetTree().ChangeSceneToFile("res://UserInterface/EndScreen.tscn");
 	}
 
     /// <summary>

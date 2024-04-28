@@ -17,6 +17,7 @@ public partial class Blast : RigidBody3D
 		await Task.Delay(TimeSpan.FromMilliseconds(fadeTime));
 
         //free the node
-		QueueFree();
+        if(IsInsideTree())
+		    QueueFree();
 	}
 }

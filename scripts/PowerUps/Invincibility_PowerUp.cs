@@ -69,7 +69,7 @@ public partial class Invincibility_PowerUp : Generic_PowerUp
         player.powerUps.Remove(this);
 
         //flashing effect
-        int ms = 500;
+        int ms = 300;
         for (int i = 0; i < 6; i++)
         {
             if (appearInvincible)

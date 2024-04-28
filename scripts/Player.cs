@@ -17,7 +17,7 @@ public partial class Player : CharacterBody3D
     public List<Bomb> Bombs = new();
 
     public int speed = 5;
-    private int bombLimit = 2;
+    private int bombLimit = 1;
     private int blastRange = 2;
     public bool HasDetonator = false;
     public int ObstacleStock = 0;
@@ -69,33 +69,8 @@ public partial class Player : CharacterBody3D
         bombScene ??= GD.Load<PackedScene>("res://scenes/bomb.tscn");
         boxScene ??= GD.Load<PackedScene>("res://scenes/box.tscn");
 
-        // Set controls for checking (will be done by the map)
-        if (Name == "Player1")
-        {
-            controls = new Dictionary<ControlScheme, Key>
-            {
-                { ControlScheme.MOVE_UP, Key.W },
-                { ControlScheme.MOVE_DOWN, Key.S },
-                { ControlScheme.MOVE_LEFT, Key.A },
-                { ControlScheme.MOVE_RIGHT, Key.D },
-                { ControlScheme.PLACE_BOMB, Key.Space },
-                { ControlScheme.PLACE_OBSTACLE, Key.B }
-
-            };
-
-        }
-        if (Name == "Player2")
-        {
-            controls = new Dictionary<ControlScheme, Key>
-            {
-                { ControlScheme.MOVE_UP, Key.Up },
-                { ControlScheme.MOVE_DOWN, Key.Down },
-                { ControlScheme.MOVE_LEFT, Key.Left },
-                { ControlScheme.MOVE_RIGHT, Key.Right },
-                { ControlScheme.PLACE_BOMB, Key.Enter },
-                { ControlScheme.PLACE_OBSTACLE, Key.O }
-            };
-        }
+        // Set its control
+        controls = GetNode<Global>("/root/Global").playerControls[GetPlayerID()-1];
     }
 
     public override void _Input(InputEvent @event)
@@ -123,7 +98,7 @@ public partial class Player : CharacterBody3D
         Move(delta);
 
         // Check if the player has exited the occupied tile
-        if (InsideObject != null && InsideObject.IsVisibleInTree() && GetCurrentTile().Content != InsideObject)
+        if (InsideObject != null && InsideObject.IsInsideTree() && GetCurrentTile().Content != InsideObject)
         {
             RemoveCollisionExceptionWith(InsideObject);
             InsideObject = null;

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Reflection.Metadata.Ecma335;
 
 
-public partial class HUD : Control
+public partial class HUD : Node
 {
     //Initializing the bomb count for 2 players 
     private int bombCountP1;
@@ -25,23 +25,25 @@ public partial class HUD : Control
 
     public override void _Ready()
     {
-        bombCountLabelP1 = GetNode<Label>("BoxContainer/MarginContainer/BoxContainer/HBoxContainer/bomb_count");
-        bombCountLabelP2 = GetNode<Label>("BoxContainer/MarginContainer2/BoxContainer/HBoxContainer/bomb_count2");
-        blastCountLabelP1 = GetNode<Label>("BoxContainer/MarginContainer/BoxContainer/HBoxContainer/BlastShow");
-        blastCountLabelP2 = GetNode<Label>("BoxContainer/MarginContainer2/BoxContainer/HBoxContainer/BlastShow");
-        numberCountLabelP1 = GetNode<Label>("BoxContainer/MarginContainer/BoxContainer/HBoxContainer/NumberShow");
-        numberCountLabelP2 = GetNode<Label>("BoxContainer/MarginContainer2/BoxContainer/HBoxContainer/NumberShow");
-        obstacleLabel1 = GetNode<Label>("BoxContainer/MarginContainer/BoxContainer/HBoxContainer/ObstacleShow");
-        obstacleLabel2 = GetNode<Label>("BoxContainer/MarginContainer2/BoxContainer/HBoxContainer/ObstacleShow");
-        ghostLabel1 = GetNode<Label>("BoxContainer/MarginContainer/BoxContainer/HBoxContainer/GhostShow");
-        ghostLabel2 = GetNode<Label>("BoxContainer/MarginContainer2/BoxContainer/HBoxContainer/GhostShow");
-        invLabel1 = GetNode<Label>("BoxContainer/MarginContainer/BoxContainer/HBoxContainer/InvincSHow");
-        invLabel2 = GetNode<Label>("BoxContainer/MarginContainer2/BoxContainer/HBoxContainer/InvincSHow");
-        rollLabel1 = GetNode<Label>("BoxContainer/MarginContainer/BoxContainer/HBoxContainer/Roller_skate_show");
-        rollLabel2 = GetNode<Label>("BoxContainer/MarginContainer2/BoxContainer/HBoxContainer/Roller_skate_show");
-        detLabel1 = GetNode<Label>("BoxContainer/MarginContainer/BoxContainer/HBoxContainer/Deetonator_show");
-        detLabel2 = GetNode<Label>("BoxContainer/MarginContainer2/BoxContainer/HBoxContainer/Deetonator_show");
-        timerLabel = GetNode<Label>("BoxContainer/Timer/Label");
+        MarginContainer p1 = GetNode<MarginContainer>("MarginContainer/HBox/P1Container");
+        MarginContainer p2 = GetNode<MarginContainer>("MarginContainer/HBox/P2Container");
+        bombCountLabelP1 = p1.GetNode<Label>("HBoxContainer/bomb_count");
+        bombCountLabelP2 = p2.GetNode<Label>("HBoxContainer/bomb_count2");
+        blastCountLabelP1 = p1.GetNode<Label>("HBoxContainer/BlastShow");
+        blastCountLabelP2 = p2.GetNode<Label>("HBoxContainer/BlastShow");
+        numberCountLabelP1 = p1.GetNode<Label>("HBoxContainer/NumberShow");
+        numberCountLabelP2 = p2.GetNode<Label>("HBoxContainer/NumberShow");
+        obstacleLabel1 = p1.GetNode<Label>("HBoxContainer/ObstacleShow");
+        obstacleLabel2 = p2.GetNode<Label>("HBoxContainer/ObstacleShow");
+        ghostLabel1 = p1.GetNode<Label>("HBoxContainer/GhostShow");
+        ghostLabel2 = p2.GetNode<Label>("HBoxContainer/GhostShow");
+        invLabel1 = p1.GetNode<Label>("HBoxContainer/InvincSHow");
+        invLabel2 = p2.GetNode<Label>("HBoxContainer/InvincSHow");
+        rollLabel1 = p1.GetNode<Label>("HBoxContainer/Roller_skate_show");
+        rollLabel2 = p2.GetNode<Label>("HBoxContainer/Roller_skate_show");
+        detLabel1 = p1.GetNode<Label>("HBoxContainer/Deetonator_show");
+        detLabel2 = p2.GetNode<Label>("HBoxContainer/Deetonator_show");
+        timerLabel = GetNode<Label>("MarginContainer/HBox/Timer/Label");
         // player1 = GetNode<Map>("/root/Main/Map").GetPlayers()[0];
         // player2 = GetNode<Map>("/root/Main/Map").GetPlayers()[1];
 
@@ -145,8 +147,8 @@ public partial class HUD : Control
     private void UpdateBombDisplay()
     {
 
-        bombCountLabelP1.Text = bombCountP1.ToString();
-        bombCountLabelP2.Text = bombCountP2.ToString();
+        bombCountLabelP1.Text = bombCountP1.ToString() + "/" + (lastPlayer1NumberPowerUpCount+1);
+        bombCountLabelP2.Text = bombCountP2.ToString() + "/" + (lastPlayer2NumberPowerUpCount+1);
         // blastCountLabelP1.Text = player1BlastPowerUpCount.ToString();
         // blastCountLabelP2.Text = player2BlastPowerUpCount.ToString();
 
