@@ -2,10 +2,13 @@ using Godot;
 using System;
 using System.Threading.Tasks;
 
+
 public partial class Invincibility_PowerUp : Generic_PowerUp
 {
     public int duration = 5;
     private bool appearInvincible = true;
+
+    //Change the mesh of the player to a different color during the duration of the powerup
     public void ShowInvincibility(Player player)
     {
         appearInvincible = true;
@@ -16,6 +19,7 @@ public partial class Invincibility_PowerUp : Generic_PowerUp
         };
     }
 
+    //turn back the color of the player when the duration ends 
     public void HideInvincibility(Player player)
     {
         appearInvincible = false;
@@ -26,6 +30,8 @@ public partial class Invincibility_PowerUp : Generic_PowerUp
         };
     }
 
+
+    // apply the invincibility powerup
     public override void ApplyEffect(Player player)
     {
         // Get rid of the previous invincibility powerup
@@ -40,6 +46,7 @@ public partial class Invincibility_PowerUp : Generic_PowerUp
         player.AddChild(player.InvincibleTimer);
         player.InvincibleTimer.Timeout += () => EndEffect(player);
 
+        //call the function to start the powerup
         StartEffect(player);
     }
 
@@ -47,6 +54,7 @@ public partial class Invincibility_PowerUp : Generic_PowerUp
     {
         ShowInvincibility(player);
         player.IsInvincible = true;
+        //disable collision for blast so that the player doesnt die
         player.SetCollisionMaskValue(7, false);
 
         player.InvincibleTimer.OneShot = true;
@@ -54,10 +62,13 @@ public partial class Invincibility_PowerUp : Generic_PowerUp
     }
 
 
+    //end the invincibility powerup
     public override async void EndEffect(Player player)
     {
+        //remove powerup
         player.powerUps.Remove(this);
 
+        //flashing effect
         int ms = 500;
         for (int i = 0; i < 6; i++)
         {

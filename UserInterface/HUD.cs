@@ -6,9 +6,11 @@ using System.Reflection.Metadata.Ecma335;
 
 public partial class HUD : Control
 {
-
+    //Initializing the bomb count for 2 players 
     private int bombCountP1;
     private int bombCountP2;
+
+    //Getting the label from the godot to change the hud
     private Label bombCountLabelP1;
     private Label bombCountLabelP2;
     private Label blastCountLabelP1, numberCountLabelP1, obstacleLabel1, ghostLabel1, invLabel1, rollLabel1, detLabel1;
@@ -49,14 +51,14 @@ public partial class HUD : Control
 
 
 
-
+    //Function for counting the power ups. When player picksup the power up it will increment the power up by one and show it on the hud.
     private int CountBlastPowerUps(List<Generic_PowerUp> powerUps)
     {
 
         int count = 0;
         foreach (var powerUp in powerUps)
         {
-            if (powerUp is Blast_PowerUp)
+                    if (powerUp is Blast_PowerUp)
             {
                 count++;
             }
@@ -157,7 +159,14 @@ public partial class HUD : Control
         timerLabel.Text = timer.TimeLeft.ToString("0.0");
 
         // P1
+        // Updates the display of blast power-ups for player 1 if the count has changed.
+        // This function checks the number of blast power ups player 1 currently has and updates the UI label to show this count.
+        // It only updates the UI and internal count if there has been a change from the last known count to avoid unnecessary updates.
+
+        // Count the current blast power-ups for player 1
         int player1BlastPowerUpCount = CountBlastPowerUps(player1.powerUps);
+
+        // Check if the current count is different from the last recorded count
         if (player1BlastPowerUpCount != lastPlayer1BlastPowerUpCount)
         {
             blastCountLabelP1.Text = player1BlastPowerUpCount.ToString();
@@ -276,6 +285,8 @@ public partial class HUD : Control
             detLabel2.Text = p2DetCnt.ToString();
             last2det = p2DetCnt;
         }
+
+        // Checks and updates the bomb counts for both players if there have been any changes.
 
         if (player1 != null)
         {

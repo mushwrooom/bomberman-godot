@@ -24,6 +24,10 @@ public partial class Main : Node
 		playerControls = global.playerControls;
 		StartGame();
 	}
+
+	/// <summary>
+    /// Called in each time frame to check if a player is dead. If yes, it calls EndGame to check draw condition and stop calling _Process again. 
+    /// </summary>
 	public override void _Process(double delta)
 	{
 		if (IsEnd())
@@ -62,6 +66,10 @@ public partial class Main : Node
 		map.AddChild(Characters);
 	}
 
+    /// <summary>
+    /// This function is called after a player dies. It will wait for 3 seconds (same as bomb's exploding time) then check if it's a draw or a win state. 
+	/// If a player wins, the corresponding score will be incremented. Either it's a draw or a win, it shows the End scene and players will have a chance to restart the game. 
+    /// </summary>
 	public async void EndGame()
 	{
 		//Wait for some time for draw condition
@@ -80,10 +88,17 @@ public partial class Main : Node
 		}
 	}
 
+    /// <summary>
+    /// When a player dies, it returns true
+    /// </summary>
 	private bool IsEnd()
 	{
 		return map.GetPlayers().Count == 1;
 	}
+
+    /// <summary>
+    /// If both players are dead, it returns true 
+    /// </summary>
 	private bool IsDraw()
 	{
 		return map.GetPlayers().Count == 0;
