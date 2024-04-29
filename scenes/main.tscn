@@ -10,7 +10,7 @@ fog_enabled = true
 [node name="Main" type="Node"]
 script = ExtResource("1_wa161")
 
-[node name="Map" parent="." instance_placeholder="res://scenes/maps/map.tscn"]
+[node name="Map" parent="." instance_placeholder="res://scenes/maps/map1.tscn"]
 
 [node name="Characters" parent="." instance_placeholder="res://scenes/characters.tscn"]
 
@@ -20,7 +20,7 @@ script = ExtResource("1_wa161")
 transform = Transform3D(1, 0, 0, 0, 0.0871558, 0.996195, 0, -0.996195, 0.0871558, 0, 12, 1.2)
 environment = SubResource("Environment_wkeyu")
 fov = 60.0
-size = 0.001
+size = 13.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Misc"]
 transform = Transform3D(0.52101, -0.819243, -0.239563, 0, -0.280667, 0.959805, -0.853551, -0.500068, -0.14623, 0, 0, 0)

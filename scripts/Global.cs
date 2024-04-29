@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public partial class Global : Node
 {
-	public string currentMap = "res://scenes/maps/map.tscn";
+	public string currentMap = "res://scenes/maps/map1.tscn";
 	public string endMessage = "Game Over!";
 	public int[] scores = new int[2];
 	public List<Dictionary<ControlScheme, Key>> playerControls = new List<Dictionary<ControlScheme, Key>>

@@ -2,31 +2,32 @@ using Godot;
 using GodotPlugins.Game;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
 
-/// <summary>
-/// Manages the user interface related to map selection and navigation within the game.
-/// </summary>
-
-public partial class mapUI : Control
+public partial class mapUI : Node
 {
 	private Global global;
-
-	/// <summary>
-    /// Maps button names to their respective scene paths for map selection.
-    /// </summary>
 	private Dictionary<string, string> mapButtonToScenePath = new Dictionary<string, string>();
+	[Export]
+	private TextureRect[] thumbnails = new TextureRect[3];
 	
-
-	
-	
-	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		global = GetNode<Global>("/root/Global");
-		mapButtonToScenePath.Add("Map1","res://scenes/maps/map.tscn");
+		mapButtonToScenePath.Add("Map1","res://scenes/maps/map1.tscn");
 		mapButtonToScenePath.Add("Map2","res://scenes/maps/map2.tscn");
 		mapButtonToScenePath.Add("Map3","res://scenes/maps/map3.tscn");
+
+        GenerateThumbnail("map1", thumbnails[0]);
+		GenerateThumbnail("map2", thumbnails[1]);
+		GenerateThumbnail("map3", thumbnails[2]);
 	}
+
+	public void GenerateThumbnail(string mapName, TextureRect textureRect)
+    {
+        textureRect.Texture = GD.Load<Texture2D>("res://assets/thumbnails/" + mapName + ".png");
+    }
 
 	public void _on_map_1_pressed(){
 		global.currentMap = mapButtonToScenePath["Map1"];

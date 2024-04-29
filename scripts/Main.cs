@@ -10,14 +10,13 @@ using System.Threading.Tasks;
 public partial class Main : Node
 {
 	public Global global;
-	public string currentMap = "res://scenes/maps/map.tscn";
 	public Map map;
 	public Node3D Characters;
 
 	public override void _Ready()
 	{
+		GD.Print("Main.cs is ready");
 		global = GetNode<Global>("/root/Global");
-		currentMap = global.currentMap;
 		StartGame();
 	}
 
@@ -36,7 +35,7 @@ public partial class Main : Node
 
 	public void StartGame()
 	{
-		PackedScene res = GD.Load<PackedScene>(currentMap);
+		PackedScene res = GD.Load<PackedScene>(global.currentMap);
 		map = res.Instantiate<Map>();
 		map.Position = Vector3.Zero;
 		AddChild(map);

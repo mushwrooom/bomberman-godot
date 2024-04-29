@@ -5,7 +5,7 @@
 
 [node name="Characters" type="Node3D"]
 
-[node name="Map" parent="." instance_placeholder="res://scenes/maps/map.tscn"]
+[node name="Map" parent="." instance_placeholder="res://scenes/maps/map1.tscn"]
 
 [node name="Players" type="Node3D" parent="."]
 
