@@ -112,6 +112,16 @@ size_flags_vertical = 8
 text = "Map3
 "
 
+[node name="MarginContainer" type="MarginContainer" parent="Margin/HBoxContainer"]
+custom_minimum_size = Vector2(80, 60)
+layout_mode = 2
+
+[node name="TextEdit" type="LineEdit" parent="Margin/HBoxContainer/MarginContainer"]
+custom_minimum_size = Vector2(160, 60)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "3"
+
 [connection signal="pressed" from="Margin/HBoxContainer/Navigation/GoBackToHome" to="." method="_on_go_back_to_home_pressed"]
 [connection signal="pressed" from="Margin/HBoxContainer/Navigation/CustomizeControl" to="." method="_on_customize_control_pressed"]
 [connection signal="pressed" from="Margin/HBoxContainer/CenterContainer/Buttons/Map1/VBoxContainer/Map1" to="." method="_on_map_1_pressed"]

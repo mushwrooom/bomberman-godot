@@ -73,35 +73,58 @@ public partial class Main : Node
 		
 	}
 
-	/// <summary>
-	/// Waits for 3 seconds before checking if the game ended in a draw or a win, then updates scores and changes to the end screen scene.
-	/// </summary>
-	public async void EndGame()
-	{
-		await Task.Delay(TimeSpan.FromMilliseconds(3000));
+    /// <summary>
+    /// This function is called after a player dies. It will wait for 3 seconds (same as bomb's exploding time) then check if it's a draw or a win state. 
+	/// If a player wins, the corresponding score will be incremented. Either it's a draw or a win, it shows the End scene and players will have a chance to restart the game. 
+    /// </summary>
+	/// 
 
-		//After 3 seconds a player died, check if it is a draw or a win
-		if (IsDraw())
-		{
-			for(int i = 0; i < global.scores.Count(); i++)
-				global.scores[i]++;
-			
-			global.endMessage = "Draw!";
-		}
-		else
-		{
-			global.scores[map.GetPlayers()[0].GetPlayerID()-1]++;
-			global.endMessage = "Player " + map.GetPlayers()[0].GetPlayerID() + " wins!";
-		}
+
+	public async void EndGame()
+    {
+        GD.Print("EndGame called");
+
+		int winnerID = map.GetPlayers()[0].GetPlayerID();
+        // Wait for some time for draw condition
+        await Task.Delay(TimeSpan.FromMilliseconds(3000));
+
+        // Then check if it is a draw or a win
+        if (IsDraw())
+        {
+            for (int i = 0; i < global.scores.Length; i++)
+            {
+                global.scores[i]++;
+            }
+            global.endMessage = "Draw!";
+            GD.Print("It's a draw. Scores updated to: " + string.Join(", ", global.scores));
+        }
+        else
+        {
+            global.scores[winnerID - 1]++;
+			global.endMessage = "Player " + winnerID + " wins. Scores updated to: " + string.Join(", ", global.scores);
+        }
+
+        // Check if any player has reached the required rounds to win
+        if (global.scores.Any(score => score >= global.roundsToWin))
+        {
+			global.endMessage = "Game over. Player " + winnerID + " wins!";
+            GD.Print("Game over. Final scores: " + string.Join(", ", global.scores));
+        }
+        else
+        {
+            global.currentRound++; 
+            GD.Print("Starting next round. Current round: " + global.currentRound);
+            StartGame();
+        }
 		GetTree().ChangeSceneToFile("res://UserInterface/EndScreen.tscn");
-	}
+    }
 
 	/// <summary>
 	/// Checks if the game should end based on the number of remaining players.
 	/// </summary>
 	private bool IsEnd()
 	{
-		return map.GetPlayers().Count == 1;
+		return map.GetPlayers().Count <= 1;
 	}
 
     /// <summary>
