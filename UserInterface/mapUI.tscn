@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://ctm12trlw40ug"]
 
 [ext_resource type="Script" path="res://UserInterface/mapUI.cs" id="1_1vym0"]
-[ext_resource type="Texture2D" uid="uid://cv6v35vk1j328" path="res://assets/thumbnails/map1.png" id="2_l30r5"]
+[ext_resource type="Texture2D" uid="uid://ctmx3g1knrlsg" path="res://assets/thumbnails/map1.png" id="2_l30r5"]
 
 [node name="Map" type="Node" node_paths=PackedStringArray("thumbnails")]
 script = ExtResource("1_1vym0")
