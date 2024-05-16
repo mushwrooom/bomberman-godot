@@ -21,18 +21,22 @@ public partial class Main : Node
 	}
 
 	/// <summary>
-    /// Called in each time frame to check if a player is dead. If yes, it calls EndGame to check draw condition and stop calling _Process again. 
-    /// </summary>
+	/// Regularly checks game end conditions during the game loop. 
+	/// </summary>
+	/// <param name="delta">The frame time elapsed since the last call.</param>
 	public override void _Process(double delta)
 	{
 		if (IsEnd())
 		{
-			//If the end condition is satisfied call the EndGame method and set this recurring _Process to false.
+			//If the end condition is satisfied, call EndGame() and set this recurring _Process function call to false.
 			EndGame();
 			SetProcess(false);
 		}
 	}
 
+	/// <summary>
+	/// Sets up the game environment, map, players, and HUD elements.
+	/// </summary>
 	public void StartGame()
 	{
 		PackedScene res = GD.Load<PackedScene>(global.currentMap);
@@ -46,13 +50,15 @@ public partial class Main : Node
 		// Setup HUD
 		PackedScene hudRes = GD.Load<PackedScene>("res://UserInterface/HUD.tscn");
 		HUD hud = hudRes.Instantiate<HUD>();
-		// hud.Position = Vector2.Zero;
 		GetNode("Misc").AddChild(hud);
 		hud.player1 = map.GetPlayers()[0];
 		hud.player2 = map.GetPlayers()[1];
 		hud.timer = map.timer;
 	}
 
+	/// <summary>
+	/// Loads player characters on the map and assigns the control schemes based on global settings
+	/// </summary>
 	public void SetupCharacters()
 	{
 		// Instantiate the characters
@@ -60,6 +66,11 @@ public partial class Main : Node
 		Characters = res.Instantiate<Node3D>();
 		Characters.Position = Vector3.Zero;
 		map.AddChild(Characters);
+
+		//setup players's control schemes from global 
+		map.GetPlayers()[0].SetControlSchemes(global.playerControls[0]);
+		map.GetPlayers()[1].SetControlSchemes(global.playerControls[1]);
+		
 	}
 
     /// <summary>
@@ -108,17 +119,17 @@ public partial class Main : Node
 		GetTree().ChangeSceneToFile("res://UserInterface/EndScreen.tscn");
     }
 
-    /// <summary>
-    /// When a player dies, it returns true
-    /// </summary>
+	/// <summary>
+	/// Checks if the game should end based on the number of remaining players.
+	/// </summary>
 	private bool IsEnd()
 	{
 		return map.GetPlayers().Count <= 1;
 	}
 
     /// <summary>
-    /// If both players are dead, it returns true 
-    /// </summary>
+	/// Determines if the game ended in a draw.
+	/// </summary>
 	private bool IsDraw()
 	{
 		return map.GetPlayers().Count == 0;

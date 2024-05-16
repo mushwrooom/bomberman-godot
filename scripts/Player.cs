@@ -63,36 +63,38 @@ public partial class Player : CharacterBody3D
         controls = layout;
     }
 
+    /// <summary>
+    /// Prepares the player by loading bomb and box scenes if the scenes were null
+    /// </summary>
     public override void _Ready()
     {
-        // Try to reference the scenes from files if null
         bombScene ??= GD.Load<PackedScene>("res://scenes/bomb.tscn");
         boxScene ??= GD.Load<PackedScene>("res://scenes/box.tscn");
-
-        // Set its control
-        controls = GetNode<Global>("/root/Global").playerControls[GetPlayerID()-1];
     }
 
+    /// <summary>
+    /// Handles player input events for placing bombs and obstacles.
+    /// </summary>
+    /// <param name="@event">The input event to process.</param>
     public override void _Input(InputEvent @event)
     {
         base._Input(@event);
-
-        // Check if the event is an InputEventKey, and if the key was released.
         if (@event is InputEventKey eventKey && eventKey.Pressed == false)
         {
             bool hasObstaclePowerUp = powerUps.Any(powerUp => powerUp is Obstacle_PowerUp);
             // Check if the released key is the one mapped to PLACE_BOMB in your dictionary.
             if (eventKey.Keycode == controls[ControlScheme.PLACE_BOMB])
-            {
                 PlaceBomb();
-            }
-            else if (hasObstaclePowerUp && eventKey.Keycode == controls[ControlScheme.PLACE_OBSTACLE]) // Only place obstacle if the player has the power-up
-            {
+            // Only place obstacle if the player has the power-up
+            else if (hasObstaclePowerUp && eventKey.Keycode == controls[ControlScheme.PLACE_OBSTACLE]) 
                 PlaceObstacle();
-            }
         }
     }
-
+        
+    /// <summary>
+    /// Updates the player's movement and checks for exiting the current tile.
+    /// </summary>
+    /// <param name="delta">The time elapsed since the last physics update.</param>
     public override void _PhysicsProcess(double delta)
     {
         Move(delta);
@@ -105,7 +107,9 @@ public partial class Player : CharacterBody3D
         }
     }
 
-
+    /// <summary>
+    /// Handles the player's death, removing them from the scene if not invincible.
+    /// </summary>
     public void Die()
     {
         if(!IsInvincible)
@@ -115,11 +119,15 @@ public partial class Player : CharacterBody3D
         }
     }
 
+    /// <summary>
+    /// Calculates and applies the player's movement based on input.
+    /// </summary>
+    /// <param name="delta">The time since the last update.</param>
     public void Move(double delta)
     {
-        Vector3 targetVelocity = Vector3.Zero; // Desired movement direction and speed
-
+        Vector3 targetVelocity = Vector3.Zero; 
         var direction = Vector3.Zero;
+
         // Determine direction based on key presses
         if (Input.IsKeyPressed(controls[ControlScheme.MOVE_LEFT])) direction.X = -1;
         if (Input.IsKeyPressed(controls[ControlScheme.MOVE_RIGHT])) direction.X = 1;
@@ -128,9 +136,7 @@ public partial class Player : CharacterBody3D
 
         // Normalize direction to prevent faster diagonal movement
         if (direction != Vector3.Zero)
-        {
             direction = direction.Normalized();
-        }
 
         // Calculate the target velocity based on direction and speed
         targetVelocity.X = direction.X * speed;
@@ -139,15 +145,20 @@ public partial class Player : CharacterBody3D
         // Apply the movement
         Velocity = targetVelocity;
         MoveAndSlide(); // Smooths out collisions with walls or obstacles
+        
+        // Check collsiion after moving
         for (int i = 0; i < GetSlideCollisionCount(); i++)
         {
             KinematicCollision3D collision = GetSlideCollision(i);
             Object body = collision.GetCollider();
             CheckCollisions(body);
-        }
-        // Check collsiion after moving
+        } 
     }
 
+    /// <summary>
+    /// Checks and handles collisions with power-ups, monsters, or blasts. 
+    /// </summary>
+    /// <param name="collider">The object collided with.</param>
     public void CheckCollisions(Object collider)
     {
         if (collider is Powerup powerup)
@@ -158,29 +169,22 @@ public partial class Player : CharacterBody3D
             powerup.Free();
         }
         else if (collider is Monster || collider is Blast)
-        {
             Die();
-        }
     }
 
-
-
-
-
+    /// <summary>
+    /// Places a bomb at the player's current position if the player hasn't reached the bomb limit
+    /// </summary>
     public void PlaceBomb()
     {
         // Stop the placement of bombs if the player has reached the limit
         if (Bombs.Count >= bombLimit)
         {
             var tempBombs = new List<Bomb>(Bombs); // Create a copy of the Bombs list since the original will be modified during the loop
-
             if (HasDetonator)
-            {
                 tempBombs.ForEach(bomb => bomb.Explode());
-            }
             return;
         }
-
 
         // Terminate if there is something inside tile
         if (GetCurrentTile().Content != null) return;
@@ -198,7 +202,7 @@ public partial class Player : CharacterBody3D
         bombInstance.HasDetonator = HasDetonator;
         bombInstance.player = this;
 
-        // Add the bomb instance to the sce
+        // Add the bomb instance to the scene
         Bombs.Add(bombInstance);
 
         // No collision with the bomb until the player exits the bomb tile
@@ -206,13 +210,15 @@ public partial class Player : CharacterBody3D
         InsideObject = bombInstance;
     }
 
+    /// <summary>
+    /// Places an obstacle at the player's current position if available.
+    /// </summary>
     public void PlaceObstacle()
     {
         if (ObstacleStock <= 0) return;
         // Terminate if there is something inside tile
         if (GetCurrentTile().Content != null) return;
 
-        // Create an instance of the box
         Box boxInstance = boxScene.Instantiate<Box>();
 
         // Set the box's position to the player's position and add it to the scene
@@ -231,7 +237,6 @@ public partial class Player : CharacterBody3D
         InsideObject = boxInstance;
 
     }
-
 
     public void AddPowerUp(Generic_PowerUp powerup)
     {
