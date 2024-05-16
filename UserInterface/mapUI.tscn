@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://ctm12trlw40ug"]
 
 [ext_resource type="Script" path="res://UserInterface/mapUI.cs" id="1_1vym0"]
-[ext_resource type="Texture2D" uid="uid://cv6v35vk1j328" path="res://assets/thumbnails/map1.png" id="2_l30r5"]
+[ext_resource type="Texture2D" uid="uid://ctmx3g1knrlsg" path="res://assets/thumbnails/map1.png" id="2_l30r5"]
 
 [node name="Map" type="Node" node_paths=PackedStringArray("thumbnails")]
 script = ExtResource("1_1vym0")
@@ -111,6 +111,16 @@ layout_mode = 2
 size_flags_vertical = 8
 text = "Map3
 "
+
+[node name="MarginContainer" type="MarginContainer" parent="Margin/HBoxContainer"]
+custom_minimum_size = Vector2(80, 60)
+layout_mode = 2
+
+[node name="TextEdit" type="LineEdit" parent="Margin/HBoxContainer/MarginContainer"]
+custom_minimum_size = Vector2(160, 60)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "3"
 
 [connection signal="pressed" from="Margin/HBoxContainer/Navigation/GoBackToHome" to="." method="_on_go_back_to_home_pressed"]
 [connection signal="pressed" from="Margin/HBoxContainer/Navigation/CustomizeControl" to="." method="_on_customize_control_pressed"]

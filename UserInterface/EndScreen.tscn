@@ -39,7 +39,7 @@ label_settings = SubResource("LabelSettings_2y3e3")
 
 [node name="Button" type="Button" parent="MarginContainer/CenterContainer/VBoxContainer"]
 layout_mode = 2
-text = "Restart"
+text = "Next Round"
 
 [node name="Button2" type="Button" parent="MarginContainer/CenterContainer/VBoxContainer"]
 layout_mode = 2

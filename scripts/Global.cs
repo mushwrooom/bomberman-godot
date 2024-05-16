@@ -7,6 +7,8 @@ public partial class Global : Node
 	public string currentMap = "res://scenes/maps/map1.tscn";
 	public string endMessage = "Game Over!";
 	public int[] scores = new int[2];
+	public int roundsToWin = 3;
+	public int currentRound = 0;
 	public List<Dictionary<ControlScheme, Key>> playerControls = new List<Dictionary<ControlScheme, Key>>
 		//Default Control
 		{
