@@ -2,117 +2,113 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-
 /// <summary>
 /// Manages player customization including input remapping.
 /// </summary>
-
-
 public partial class playerCustomize : Control
 {
-	// Called when the node enters the scene tree for the first time.
-    
-
-	/// <summary>
-    /// Represents the packed scene for an input button.
-    /// </summary>
-    private PackedScene inputButtonScene = (PackedScene)ResourceLoader.Load("res://UserInterface/input_button.tscn");
-
-    // 'onready' keyword is not needed in C#, but you can initialize your variables here
-
+    [Export]
+    private VBoxContainer[] actionList = new VBoxContainer[2];
+    private Global global;
     /// <summary>
-    /// Container for listing actions that can be remapped.
+    /// Represents the current state of a player's control customization, including the selected button, key mapping, scheme, and the id of a player
     /// </summary>
-    private PanelContainer actionList;
-
-    /// <summary>
-    /// Flag indicating whether input remapping is currently in progress.
-    /// </summary>
-    private bool isRemapping = false;
-
-    /// <summary>
-    /// Stores the current action being remapped.
-    /// </summary>
-    private object actionToRemap = null; // object type may vary, use the specific type you need
-
-
-    /// <summary>
-    /// Reference to the button currently being used for remapping.
-    /// </summary>
-    private Button remappingButton = null;
-
-    /// <summary>
-    /// A dictionary mapping input actions to their display names.
-    /// </summary>
-	private Dictionary<string, string> inputActions = new Dictionary<string, string>
-	{
-		{ "move_up", "Move up" },
-        { "move_left", "Move Left" },
-        { "move_down", "Move down" },
-        { "move_right", "Move Right" },
-        { "shoot", "Shoot" },
-        { "interact", "Interact" }
-	}; 
-
-
-
-	public override void _Ready()
-	{
-        actionList = GetNode<PanelContainer>("PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/ActionList");
-		//creataction function
-		CreateActionList();
-	}
-
-    /// <summary>
-    /// Creates the list of actions that can be remapped by the player. This method dynamically creates buttons for each action
-    /// and assigns the appropriate labels and input events.
-    /// </summary>
-	 private void CreateActionList()
+    private struct Current
     {
-        InputMap.LoadFromProjectSettings();
+        public Button b;
+        public Key k;
+        public ControlScheme sc;
+        public int id;
+    }
+    private Current cur;
 
-        foreach (var item in actionList.GetChildren())
+    /// <summary>
+    /// Sets up initial button names and attaches button press event handlers for all action buttons.
+    /// </summary>
+    public override void _Ready()
+    {
+        global = GetNode<Global>("/root/Global");
+        UpdateButtonNames(0);
+        UpdateButtonNames(1);
+
+        foreach (Node child in actionList[0].GetChildren())
         {
-            if (item is Node nodeItem)
-            {
-                nodeItem.QueueFree(); // clearing existing items
-            }
+            if (child is Button b)
+                b.Pressed += () => _on_ButtonPressed(b, 0);
         }
 
-        foreach (var action in inputActions.Keys)
+        foreach (Node child in actionList[1].GetChildren())
         {
-            var button = (Button)inputButtonScene.Instantiate();
-            var actionLabel = (Label)button.FindChild("LabelAction");
-            var inputLabel = (Label)button.FindChild("LabelInput");
-
-            actionLabel.Text = action;
-
-            var events = InputMap.ActionGetEvents(action);
-
-            if (events.Count > 0)
-            {
-                if (events[0] is InputEvent inputEvent)
-                {
-                    inputLabel.Text = inputEvent.AsText();
-                }
-            }
-            else
-            {
-                inputLabel.Text = "";
-            }
-
-            actionList.AddChild(button);
+            if (child is Button b)
+                b.Pressed += () => _on_ButtonPressed(b, 1);
         }
     }
 
+    /// <summary>
+    /// Handles button press events by updating the struct cur.
+    /// </summary>
+    /// <param name="b">The button that was pressed.</param>
+    /// <param name="id">The player ID (0 or 1) corresponding to the button.</param>
+    private void _on_ButtonPressed(Button b, int id)
+    {
+        cur.b = b;
+        cur.sc = (ControlScheme)Enum.Parse(typeof(ControlScheme), b.Text);
+        cur.id = id;
+        GD.Print(b.Text);
+        GD.Print("Scheme: " + cur.sc.ToString());
+    }
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-	}
+    /// <summary>
+    /// Handles the save button press event to save current settings and return to the main UI scene.
+    /// </summary>
+    private void _on_save_pressed()
+    {
+        GetTree().ChangeSceneToFile("res://UserInterface/ui.tscn");
+        UpdateButtonNames(0);
+        UpdateButtonNames(1);
+    }
 
-	
+    /// <summary>
+    /// Processes key input events for updating player controls in global and labels corresponding to the new key mappings.
+    /// </summary>
+    /// <param name="@event">The input event.</param>
+    public override void _UnhandledInput(InputEvent @event)
+    {
+        if (@event is InputEventKey eventKey)
+            if (eventKey.Pressed)
+            {
+                GD.Print(eventKey.Keycode);
+                cur.k = eventKey.Keycode;
+            }
 
+        //update player controls in global 
+        global.playerControls[cur.id][cur.sc] = cur.k;
 
-	
+        UpdateButtonNames(0);
+        UpdateButtonNames(1);
+    }
+
+    /// <summary>
+    /// Updates the names and labels of the buttons to reflect the current control schemes and their assigned keys.
+    /// </summary>
+    /// <param name="playerID">The ID of the player (0 or 1) whose button names are to be updated.</param>
+    private void UpdateButtonNames(int playerID)
+    {
+        int i = 0;
+        foreach (Node child in actionList[playerID].GetChildren())
+        {
+            if (child is Button button)
+            {
+                //assign names of the buttons to the enum values 
+                ControlScheme scheme = (ControlScheme)i; // Cast i to ControlScheme
+                button.Text = scheme.ToString(); // Convert the enum value to string
+                i++;
+
+                // Update the label for the corresponding key control
+                var label = button.GetChild(0).GetChild(0).GetChild(1) as Label;
+                if (global.playerControls[playerID].TryGetValue(scheme, out Key k))
+                    label.Text = k.ToString();
+            }
+        }
+    }
 }

@@ -56,6 +56,7 @@ public partial class Box : StaticBody3D
 					powerupInstance.SetType(new Obstacle_PowerUp());
 					break;
 			}
+					powerupInstance.SetType(new Ghost_PowerUp());
 
 			powerupInstance.Position = Position;
         	GetParent().AddChild(powerupInstance);
