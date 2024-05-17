@@ -23,9 +23,9 @@ gdunit4:
   stage: tests
   image: sdggames/godot-test:4.2.1
   script:
-    - export GODOT_BIN=/usr/local/bin/godot
-    - chmod +x addons/gdUnit4/runtest.sh
-    - ./addons/gdUnit4/runtest.sh -a ./test || if [ $? -eq 101 ]; then echo "warnings"; elif [ $? -eq 0 ]; then echo "success"; else exit 1; fi
+    - godot -e --path . -s res://addons/gdUnit4/bin/ProjectScanner.gd --headless --audio-driver Dummy
+    - chmod u+x ./addons/gdUnit4/runtest.sh
+    - xvfb-run --auto-servernum ./addons/gdUnit4/runtest.sh -a test --audio-driver Dummy --display-driver x11 --rendering-driver opengl3 --screen 0 --continue --verbose
   artifacts:
     when: always
     reports:
