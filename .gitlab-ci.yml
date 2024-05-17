@@ -24,6 +24,7 @@ gdUnit:
   stage: test
   script:
     - export GODOT_BIN=/usr/local/bin/godot
+    - ls -alF
     - addons/gdunit4/runtest.sh -a test
 
 windows:
