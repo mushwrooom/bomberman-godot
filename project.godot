@@ -23,6 +23,10 @@ Global="*res://scripts/Global.cs"
 
 project/assembly_name="Una"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/gdUnit4/plugin.cfg")
+
 [filesystem]
 
 import/blender/enabled=false

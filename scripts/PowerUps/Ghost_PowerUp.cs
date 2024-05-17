@@ -51,7 +51,7 @@ public partial class Ghost_PowerUp : Generic_PowerUp
             player.GhostTimer.QueueFree();
         }
         // Add the timer to the player and connect the signal
-        player.GhostTimer = new Timer();
+        player.GhostTimer = new Godot.Timer();
         player.AddChild(player.GhostTimer);
         player.GhostTimer.Timeout += () => EndEffect(player);
 

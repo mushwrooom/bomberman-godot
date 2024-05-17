@@ -21,7 +21,7 @@ public partial class Map : Node3D
 	private PackedScene _tilex;
 	private PackedScene wallScene;
 	private PackedScene blastScene;
-	public Timer timer;
+	public Godot.Timer timer;
 
 	/// <summary>
 	/// Called when the node enters the scene tree. Initializes the map by loading the tile scene and creating the field.

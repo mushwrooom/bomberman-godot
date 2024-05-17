@@ -21,8 +21,8 @@ public partial class Player : CharacterBody3D
     private int blastRange = 2;
     public bool HasDetonator = false;
     public int ObstacleStock = 0;
-    public Timer GhostTimer = null;
-    public Timer InvincibleTimer = null;
+    public Godot.Timer GhostTimer = null;
+    public Godot.Timer InvincibleTimer = null;
     public bool IsInvincible = false;
     public List<Generic_PowerUp> powerUps = new();
     private Dictionary<ControlScheme, Key> controls;

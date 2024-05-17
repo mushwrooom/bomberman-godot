@@ -19,7 +19,7 @@ public partial class HUD : Node
     private Label blastCountLabelP2, numberCountLabelP2, obstacleLabel2, ghostLabel2, invLabel2, rollLabel2, detLabel2;
     public Player player1;
     public Player player2;
-    public Timer timer;
+    public Godot.Timer timer;
     private Label timerLabel;
 
     // Player last power-up counts for state change detection

@@ -42,7 +42,7 @@ public partial class Invincibility_PowerUp : Generic_PowerUp
             player.InvincibleTimer.QueueFree();
         }
         // Add the timer to the player and connect the signal
-        player.InvincibleTimer = new Timer();
+        player.InvincibleTimer = new Godot.Timer();
         player.AddChild(player.InvincibleTimer);
         player.InvincibleTimer.Timeout += () => EndEffect(player);
 
