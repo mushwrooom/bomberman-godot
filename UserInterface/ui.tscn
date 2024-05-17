@@ -60,12 +60,6 @@ size_flags_vertical = 3
 text = "Play"
 flat = false
 
-[node name="Settings" type="MenuButton" parent="CanvasLayer/CentralContainer/PanelContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-text = "Settings"
-flat = false
-
 [node name="Quit" type="MenuButton" parent="CanvasLayer/CentralContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
@@ -73,5 +67,4 @@ text = "Quit"
 flat = false
 
 [connection signal="pressed" from="CanvasLayer/CentralContainer/PanelContainer/MarginContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]
-[connection signal="pressed" from="CanvasLayer/CentralContainer/PanelContainer/MarginContainer/VBoxContainer/Settings" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="CanvasLayer/CentralContainer/PanelContainer/MarginContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
