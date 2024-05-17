@@ -22,11 +22,10 @@ import-assets:
 
 gdunit4:
   stage: tests
-  dependencies:
-    - linux
   script:
     - export GODOT_BIN=/usr/local/bin/godot
-    - ./runtest.sh -a ./test || if [ $? -eq 101 ]; then echo "warnings"; elif [ $? -eq 0 ]; then echo "success"; else exit 1; fi
+    - chmod +x addons/gdunit4/runtest.sh
+    - ./addons/gdunit4/runtest.sh -a ./test || if [ $? -eq 101 ]; then echo "warnings"; elif [ $? -eq 0 ]; then echo "success"; else exit 1; fi
   artifacts:
     when: always
     reports:
