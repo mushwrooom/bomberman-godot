@@ -21,7 +21,8 @@ import-assets:
 
 gdunit4:
   stage: tests
-  image: sdggames/godot-test:4.2.1
+  image: adrasteondev/godot-ci:mono-4.2.1
+  #image: sdggames/godot-test:4.2.1
   script:
     - /bin/sh -c apt-get update && apt-get install -y --no-install-recommends     libx11-dev     libxcursor-dev     libxinerama-dev     libxrandr-dev     libxi-dev     libglu1-mesa-dev     && rm -rf /var/lib/apt/lists/*
     - export GODOT_BIN=/usr/local/bin/godot
