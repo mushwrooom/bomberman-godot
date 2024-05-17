@@ -24,21 +24,10 @@ gdunit4:
   image: adrasteondev/godot-ci:mono-4.2.1
   #image: sdggames/godot-test:4.2.1
   script:
-    - apt-get update && apt-get install -y --no-install-recommends \
-        wget \
-        unzip \
-        xvfb \
-        libfontconfig1 \
-        ca-certificates \
+    - apt-get update && apt-get install -y wget unzip xvfb libfontconfig1 ca-certificates
         && update-ca-certificates \
         && rm -rf /var/lib/apt/lists/*
-    - apt-get update && apt-get install -y \
-        libx11-dev \
-        libxcursor-dev \
-        libxinerama-dev \
-        libxrandr-dev \
-        libxi-dev \
-        libglu1-mesa-dev \
+    - apt-get update && apt-get install -y libx11-dev libxcursor-dev libxinerama-dev libxrandr-dev libxi-dev libglu1-mesa-dev
         && rm -rf /var/lib/apt/lists/*
 
     - export GODOT_BIN=/usr/local/bin/godot
