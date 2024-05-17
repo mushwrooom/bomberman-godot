@@ -31,9 +31,9 @@ gdunit4:
         && rm -rf /var/lib/apt/lists/*
 
     - export GODOT_BIN=/usr/local/bin/godot
-    - godot -e --path . -s res://addons/gdUnit4/bin/ProjectScanner.gd --headless --audio-driver Dummy
+    #- godot -e --path . -s res://addons/gdUnit4/bin/ProjectScanner.gd --headless --audio-driver Dummy
     - chmod u+x ./addons/gdUnit4/runtest.sh
-    - xvfb-run --auto-servernum ./addons/gdUnit4/runtest.sh -a test --audio-driver Dummy --display-driver x11 --rendering-driver opengl3 --screen 0 --continue --verbose
+    - xvfb-run --auto-servernum ./addons/gdUnit4/runtest.sh -a ./test --audio-driver Dummy --display-driver x11 --rendering-driver opengl3 --screen 0 --continue --verbose
 
 windows:
   stage: export
