@@ -122,7 +122,7 @@ public partial class Main : Node
 	/// <summary>
 	/// Checks if the game should end based on the number of remaining players.
 	/// </summary>
-	private bool IsEnd()
+	public bool IsEnd()
 	{
 		return map.GetPlayers().Count <= 1;
 	}
@@ -130,7 +130,7 @@ public partial class Main : Node
     /// <summary>
 	/// Determines if the game ended in a draw.
 	/// </summary>
-	private bool IsDraw()
+	public bool IsDraw()
 	{
 		return map.GetPlayers().Count == 0;
 	}

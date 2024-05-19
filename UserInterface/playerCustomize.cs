@@ -8,19 +8,19 @@ using System.Collections.Generic;
 public partial class playerCustomize : Control
 {
     [Export]
-    private VBoxContainer[] actionList = new VBoxContainer[2];
+    public VBoxContainer[] actionList = new VBoxContainer[2];
     private Global global;
     /// <summary>
     /// Represents the current state of a player's control customization, including the selected button, key mapping, scheme, and the id of a player
     /// </summary>
-    private struct Current
+    public struct Current
     {
         public Button b;
         public Key k;
         public ControlScheme sc;
         public int id;
     }
-    private Current cur;
+    public Current cur;
 
     /// <summary>
     /// Sets up initial button names and attaches button press event handlers for all action buttons.
@@ -92,7 +92,7 @@ public partial class playerCustomize : Control
     /// Updates the names and labels of the buttons to reflect the current control schemes and their assigned keys.
     /// </summary>
     /// <param name="playerID">The ID of the player (0 or 1) whose button names are to be updated.</param>
-    private void UpdateButtonNames(int playerID)
+    public void UpdateButtonNames(int playerID)
     {
         int i = 0;
         foreach (Node child in actionList[playerID].GetChildren())
