@@ -58,7 +58,7 @@ public partial class HUD : Node
 
 
 
-    private int CountPowerUpsOfType<T>(List<Generic_PowerUp> powerUps) where T : Generic_PowerUp
+    public int CountPowerUpsOfType<T>(List<Generic_PowerUp> powerUps) where T : Generic_PowerUp
     {
         return powerUps.OfType<T>().Count();
     }
