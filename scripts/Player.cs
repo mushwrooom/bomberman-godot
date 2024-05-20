@@ -17,8 +17,8 @@ public partial class Player : CharacterBody3D
     public List<Bomb> Bombs = new();
 
     public int speed = 5;
-    private int bombLimit = 1;
-    private int blastRange = 2;
+    public int bombLimit = 1;
+    public int blastRange = 2;
     public bool HasDetonator = false;
     public int ObstacleStock = 0;
     public Godot.Timer GhostTimer = null;

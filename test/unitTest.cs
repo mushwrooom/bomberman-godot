@@ -1,21 +1,43 @@
 using GdUnit4;
+using Moq;
 using static GdUnit4.Assertions;
 
 [TestSuite]
-public class ExampleTest
+public class MainTest
 {
-    Player player = new Player();
+    Main main = Mock.Of<Main>();
+    
     [TestCase]
-    public void test_speed()
+    public void test_ready()
     {
-        AssertInt(player.speed).IsEqual(5);
+        main.RequestReady();
+        AssertThat(main.global).IsNotNull();
+    }
+
+    [TestCase]
+    public void test_character_setup()
+    {
+        main.SetupCharacters();
+        AssertThat(main.Characters).IsNotNull();
     }
 
 
     [TestCase]
-    public void test_playerID()
+    public void test_startgame()
     {
-        player.SetPlayerId(69);
-        AssertInt(player.GetPlayerID()).IsEqual(69);
+        main.StartGame();
+        AssertThat(main.map).IsNotNull();
+    }
+
+    [TestCase]
+    public void test_isEnd()
+    {
+        AssertThat(main.IsEnd()).IsFalse();
+    }
+
+    [TestCase]
+    public void test_isDraw()
+    {
+        AssertThat(main.IsDraw()).IsFalse();
     }
 }

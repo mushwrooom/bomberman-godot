@@ -21,7 +21,7 @@ public class PowerupTests
         var blastPowerUp = new Blast_PowerUp();
         blastPowerUp.ApplyEffect(player);
         
-        AssertThat(player.BlastRange).IsGreater(1);
+        AssertThat(player.blastRange).IsGreater(1);
     }
 
     [TestCase]
@@ -57,10 +57,10 @@ public class PowerupTests
     [TestCase]
     public void Test_Number_PowerUp_ApplyEffect()
     {
-        int initialBombLimit = player.BombLimit;
+        int initialBombLimit = player.bombLimit;
         var numberPowerUp = new Number_PowerUp();
         numberPowerUp.ApplyEffect(player);
         
-        AssertThat(player.BombLimit).IsEqual(initialBombLimit + 1);
+        AssertThat(player.bombLimit).IsEqual(initialBombLimit + 1);
     }
 }
