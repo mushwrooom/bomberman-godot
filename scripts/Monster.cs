@@ -8,7 +8,7 @@ public partial class Monster : CharacterBody3D
 {
     public int Speed { get; set; } = 1;
 
-    private Vector3 _targetVelocity = Vector3.Zero;
+    public Vector3 _targetVelocity = Vector3.Zero;
     private Random _random = new Random();
     private Vector3[] directions = {
         new Vector3(1, 0, 0),  // East
@@ -43,7 +43,9 @@ public partial class Monster : CharacterBody3D
     private Vector3 prev;
     public override void _PhysicsProcess(double delta)
     {
-        if (Position.DistanceTo(prev) < 0.01 * Speed) ChangeDirection();
+        
+        if (Position.DistanceTo(prev) < 0.01 * Speed) 
+        ChangeDirection();
         prev = Position;
         Move(delta);
     }
@@ -66,12 +68,13 @@ public partial class Monster : CharacterBody3D
     }
 
 
-    private void ChangeDirection()
+    public void ChangeDirection()
     {
         // Randomly select a new direction to move in
         Vector3 newDirection = directions[_random.Next(directions.Length)];
 
         _targetVelocity = newDirection * Speed;
+         Velocity = _targetVelocity; // velocity update
     }
 
 }
